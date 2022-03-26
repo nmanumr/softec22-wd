@@ -4,15 +4,6 @@ volumes:
   postgres:
 
 services:
-  messenger:
-    container_name: clinicx_messenger
-    hostname: clinicx_messenger
-    image: rabbitmq
-    command: "rabbitmq-server"
-    environment:
-      - "RABBITMQ_DEFAULT_USER=clinicx"
-      - "RABBITMQ_DEFAULT_PASS=clinicx"
-
   db:
     container_name: clinicx_db
     hostname: clinicx_db
@@ -23,22 +14,20 @@ services:
       - "POSTGRES_DB=clinicx"
       - "POSTGRES_USER=clinicx"
       - "POSTGRES_PASSWORD=clinicx"
-    ports:
-      - 54322:5432
 
-  redis:
+  cache:
     image: redis
-    container_name: clinicx_redis
-    hostname: clinicx_redis
 
   primary:
-    container_name: clinicx_primary
-    hostname: clinicx-erp.local
     build:
       context: .
       dockerfile: Dockerfile
     image: clinicx
     env_file: .env
+    environment:
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - POSTGRES_HOSTNAME=db
     command: >
       bash -c "
         sleep 5 &&
@@ -53,12 +42,14 @@ services:
       - 8000:8000
 
   worker:
-    container_name: clinicx_worker
-    hostname: clinicx_worker
     build:
       context: .
       dockerfile: Dockerfile
     env_file: .env
+    environment:
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - POSTGRES_HOSTNAME=db
     command: >
       bash -c "
         sleep 5 &&

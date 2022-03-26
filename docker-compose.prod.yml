@@ -1,28 +1,28 @@
 version: '3.5'
+
+networks:
+  backend:
+
 volumes:
   postgres:
 
 services:
-  messenger:
-    image: rabbitmq
-    command: "rabbitmq-server"
-    environment:
-      - RABBITMQ_DEFAULT_USER=clinicx
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
-    restart: unless-stopped
-
   db:
     image: postgres
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - backend
     environment:
       - POSTGRES_DB=clinicx
       - POSTGRES_USER=clinicx
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     restart: unless-stopped
 
-  redis:
+  cache:
     image: redis
+    networks:
+      - backend
     restart: unless-stopped
 
   primary:
@@ -32,13 +32,16 @@ services:
     image: clinicx
     env_file: .env
     environment:
-      - REDIS_HOST=redis
-      - RABBITMQ_HOST=messenger
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
       - POSTGRES_HOSTNAME=db
+    networks:
+      - backend
+    depends_on:
+      - db
+      - cache
     command: >
       bash -c "
-        sleep 5 &&
-        pip install -r requirements.txt &&
         python manage.py migrate &&
         python manage.py runserver 0.0.0.0:8000
       "
@@ -53,15 +56,14 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     environment:
-      - REDIS_HOST=redis
-      - RABBITMQ_HOST=messenger
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
       - POSTGRES_HOSTNAME=db
-    command: >
-      bash -c "
-        sleep 5 &&
-        pip install -r requirements.txt &&
-        celery --app=clinicx:celery_app worker -n %h
-      "
+    depends_on:
+      - primary
+    networks:
+      - backend
+    command: celery --app=clinicx:celery_app worker -n %h
     restart: unless-stopped
 
   webapp:
@@ -69,6 +71,10 @@ services:
     build:
       context: ./ui
       dockerfile: Dockerfile
+    depends_on:
+      - primary
+    volumes:
+      - ./ui:/app
     ports:
       - "5001:3000"
     restart: unless-stopped
