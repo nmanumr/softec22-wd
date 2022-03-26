@@ -5,7 +5,11 @@ import React, { useState } from 'react';
 import UserAvatar from "../../components/UserAvatar";
 import ProfileEdit from "../../components/ProfileEdit";
 import DashboardLayout from "../../layouts/DashboardLayout";
+<<<<<<< HEAD
 import DoctorRating from "../../components/DoctorRating";
+=======
+import ClinicTiming from "../../components/ClinicTiming";
+>>>>>>> 76943765922d1dacdf96206ffe5de06efb85f1c3
 
 
 export default function Profile() {
@@ -30,9 +34,11 @@ export default function Profile() {
                 {/* Profile header */}
                 <div>
                   <div>
-                    <img className="h-32 w-full object-cover lg:h-48"
-                         src={"https://media.istockphoto.com/photos/colorful-background-red-blue-and-yellow-orange-colors-abstract-modern-picture-id1332601848?b=1&k=20&m=1332601848&s=170667a&w=0&h=_zrnj0NBLjjuMfPvSqxEHn2-oVlExHhOPXP9HsOO_eI="}
-                         alt=""/>
+                    <img
+                      className="h-32 w-full object-cover lg:h-48"
+                      src={"https://media.istockphoto.com/photos/colorful-background-red-blue-and-yellow-orange-colors-abstract-modern-picture-id1332601848?b=1&k=20&m=1332601848&s=170667a&w=0&h=_zrnj0NBLjjuMfPvSqxEHn2-oVlExHhOPXP9HsOO_eI="}
+                      alt=""
+                    />
                   </div>
                   <div className="max-w-5xl px-4 sm:px-6 lg:px-8">
                     <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
@@ -82,9 +88,20 @@ export default function Profile() {
                     </div>
                   </div>
                 )}
-                {currentTab === "Profile" && <ProfileEdit/>}
 
+<<<<<<< HEAD
                 {currentTab === "Ratings" && <DoctorRating/>}
+=======
+                {currentTab === "Profile" && <ProfileEdit/>}
+                {currentTab === "Clinic Timing" && <ClinicTiming/>}
+                {currentTab === "Ratings" && (
+                  <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                      <p className="text-sm text-gray">Ratings Appear Here</p>
+                    </dl>
+                  </div>
+                )}
+>>>>>>> 76943765922d1dacdf96206ffe5de06efb85f1c3
               </article>
             </main>
           </div>

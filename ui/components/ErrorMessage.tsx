@@ -93,7 +93,7 @@ export default function ErrorMessage({
       leaveTo="opacity-0 scale-95"
     >
       <div className={c(className, 'flex bg-red-50 p-4 rounded')} {...props}>
-        <div className="flex-shrink-0 text-red-400">
+        <div className="shrink-0 text-red-400">
           <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
             <path
               fillRule="evenodd" clipRule="evenodd"

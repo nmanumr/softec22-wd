@@ -29,7 +29,7 @@ export default function DashboardLayout({ children }: React.PropsWithChildren<{}
             <>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex space-x-4 h-16">
-                  <a href="/" className="flex-shrink-0 flex items-center space-x-3">
+                  <a href="/" className="shrink-0 flex items-center space-x-3">
                     <img
                       className="block h-8 w-auto"
                       src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
@@ -55,7 +55,7 @@ export default function DashboardLayout({ children }: React.PropsWithChildren<{}
                     ))}
                   </div>
 
-                  <div className="flex-grow"/>
+                  <div className="grow"/>
 
                   <div className="flex items-center">
                     <ProfileDropDown/>
