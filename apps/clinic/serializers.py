@@ -16,7 +16,7 @@ class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'avatar', 'display_name', 'email',
+            'id', 'avatar', 'display_name', 'email',
             'is_email_verified', 'is_phone_verified',
             'gender', 'appointment_duration'
         )

@@ -27,7 +27,7 @@ class User(SoftDeleteModel, AbstractUser):
     display_name = models.CharField(max_length=255, null=True, blank=True)
     gender = models.CharField(max_length=20, choices=GENDER_TYPE, blank=True, null=True)
 
-    specialization = models.CharField(max_length=20, blank=True, null=True)
+    specialization = models.CharField(max_length=20, blank=True, null=True, default='General Physician')
     age = models.IntegerField(blank=True, null=True)
 
     avatar = models.ImageField(upload_to='user_avatars', blank=True, null=True)

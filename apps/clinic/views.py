@@ -38,6 +38,13 @@ class RetrieveUpdateDestroyAppointmentsAPIView(GenericAPIView, RetrieveUpdateDes
     queryset = models.PatientAppointment
 
 
+class ListDoctorApiView(GenericAPIView, ListCreateAPIView):
+    serializer_class = serializers.DoctorSerializer
+
+    def get_queryset(self):
+        return models.User.objects.filter(type='doctor')
+
+
 class SearchDoctorApiView(GenericAPIView):
     def get(self, request, *args, **kwargs):
         query = request.GET.get('query', None)
