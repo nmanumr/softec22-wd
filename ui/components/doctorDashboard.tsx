@@ -1,11 +1,13 @@
 import useSWR from "swr";
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import UserAvatar from "./UserAvatar";
 import RemoteDataTable from "./RemoteDataTable";
 import PageHeader from "../components/PageHeader";
 import DashboardLayout from "../layouts/DashboardLayout";
-import { useConfirmation } from "../components/ConfirmationService";
+import {useConfirmation} from "../components/ConfirmationService";
+import {func} from "prop-types";
+import AppointmentTable from "./AppointmentTable";
 
 const columns = [
   {
@@ -32,56 +34,13 @@ const columns = [
 
 export default function Home() {
   const confirm = useConfirmation();
-  const { data } = useSWR('/api/user/current');
-  const { data: data2 } = useSWR(`/api/clinic/doctors/${data?.id}/appointments/`);
-  console.log(data2);
-
-  const actions = [
-    {
-      label: 'Remove',
-      danger: true,
-      perform(data: any) {
-        console.log("here");
-        confirm({
-          title: 'Are you sure?',
-          description: `Are you sure, you want to remove "${data.symbol}" from you watchlist?`,
-          actionLabel: 'Remove',
-          callback() {
-            console.log("TODO: remove", data);
-            return;
-          },
-        })
-      },
-    },
-  ];
+  const {data} = useSWR('/api/user/current');
+  const {data: appointments} = useSWR(`/api/clinic/doctors/${data?.id}/appointments/`);
 
   return (
     <DashboardLayout>
       <PageHeader title="Appointments"/>
-      {data && (
-        <RemoteDataTable
-          columns={[
-            {
-              key: 'patient',
-              name: 'Patient',
-              render: (row: any) => (
-                <div className="flex items-center space-x-2">
-                  <UserAvatar user={row.patient} classNames="h-8 w-8" />
-                  <div className="font-medium text-gray-800">{row.patient.displayName}</div>
-                </div>
-              ),
-            },
-            {
-              key: 'time',
-              name: 'Time',
-              render: (row: any) => (
-                <div className="font-medium text-gray-800">{row.patient.displayName}</div>
-              ),
-            }
-          ]}
-          apiUrl={`/api/clinic/doctors/${data?.id}/appointments/`}
-        />
-      )}
+      <AppointmentTable appointments={appointments}/>
     </DashboardLayout>
   );
 }
