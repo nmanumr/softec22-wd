@@ -7,6 +7,7 @@ import {
 } from 'react-hook-form';
 import {formatRequestError} from "./ErrorMessage";
 
+
 interface FormProps {
   mode?: Mode;
   reValidateMode?: Exclude<Mode, 'onTouched' | 'all'>;
@@ -21,7 +22,7 @@ interface FormInputProps {
   label?: string,
   required?: boolean,
   type: string,
-  pattern?: RegExp,
+  pattern?: { value: RegExp, message: string },
   minLength?: number,
   maxLength?: number,
   onChange?: (e: {target: any, type?: any}, form: UseFormReturn) => void,
