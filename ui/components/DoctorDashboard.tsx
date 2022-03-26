@@ -5,7 +5,7 @@ import UserAvatar from "./UserAvatar";
 import RemoteDataTable from "./RemoteDataTable";
 import PageHeader from "../components/PageHeader";
 import DashboardLayout from "../layouts/DashboardLayout";
-import { useConfirmation } from "../components/ConfirmationService";
+import { useConfirmation } from "./ConfirmationService";
 
 const columns = [
   {
@@ -33,8 +33,6 @@ const columns = [
 export default function Home() {
   const confirm = useConfirmation();
   const { data } = useSWR('/api/user/current');
-  const { data: data2 } = useSWR(`/api/clinic/doctors/${data?.id}/appointments/`);
-  console.log(data2);
 
   const actions = [
     {
@@ -79,7 +77,7 @@ export default function Home() {
               ),
             }
           ]}
-          apiUrl={`/api/clinic/doctors/${data?.id}/appointments/`}
+          apiUrl={`/api/clinic/appointments/`}
         />
       )}
     </DashboardLayout>

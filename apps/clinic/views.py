@@ -26,7 +26,10 @@ class ListCreateAppointmentAPIView(GenericAPIView, ListCreateAPIView):
     serializer_class = serializers.AppointmentSerializer
 
     def get_queryset(self):
-        return models.PatientAppointment.objects.filter(doctor=self.kwargs['id'])
+        if self.request.user.type == 'doctor':
+            return models.PatientAppointment.objects.filter(doctor=self.request.user.id)
+        elif self.request.user.type == 'patient':
+            return models.PatientAppointment.objects.filter(patient=self.request.user.id)
 
 
 class RetrieveUpdateDestroyAppointmentsAPIView(GenericAPIView, RetrieveUpdateDestroyAPIView):
