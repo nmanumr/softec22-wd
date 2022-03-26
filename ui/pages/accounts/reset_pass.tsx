@@ -17,7 +17,7 @@ export default function ResetPassword() {
     useEffect(() => {
         if (!router.query.token)
             router.replace('/')
-    }, [])
+    }, [router])
     const onSubmit = (value: Record<string, any>, Form: UseFormReturn) => {
         setApiError('');
         if (value.password !== value.confirmPassword) {

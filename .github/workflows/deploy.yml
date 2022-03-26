@@ -1,0 +1,24 @@
+name: Deploy Docker Compose to Remote
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: 🏗️ Populating Environment
+        run: base64 -di <<< ${{ secrets.ENV_FILE_B64 }} > ${{ github.workspace }}/.env
+
+      - name: 🚀 Docker-Compose Remote Deployment
+        uses: ameerhmzx/github-action-ssh-docker-compose@master
+        with:
+          ssh_host: ${{ secrets.SSH_HOST }}
+          ssh_user: ${{ secrets.SSH_USER }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          docker_compose_prefix: 'clinicx'
+          docker_compose_filename: 'docker-compose.prod.yml'
