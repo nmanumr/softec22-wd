@@ -1,17 +1,18 @@
 import Axios from "axios";
 import c from 'classnames';
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { RadioGroup } from '@headlessui/react';
-import { UseFormReturn, Controller } from "react-hook-form";
-import { CheckCircleIcon } from '@heroicons/react/solid';
+import React, {useState} from "react";
+import {useRouter} from "next/router";
+import {RadioGroup} from '@headlessui/react';
+import {UseFormReturn, Controller} from "react-hook-form";
+import {CheckCircleIcon} from '@heroicons/react/solid';
 
 import LinkTo from "../../components/LinkTo";
 import CompactLayout from "../../layouts/CompactLayout";
 import ErrorMessage from "../../components/ErrorMessage";
-import { isAuthenticated, setToken } from "../../providers/auth";
-import { Form, FormField, FormInputFuncProps } from "../../components/form";
+import {isAuthenticated, setToken} from "../../providers/auth";
+import {Form, FormField, FormInputFuncProps} from "../../components/form";
 import Button from "../../components/Button";
+import {any} from "prop-types";
 
 
 export default function Register() {
@@ -24,10 +25,12 @@ export default function Register() {
   }
 
   const onSubmit = async (value: Record<string, any>, Form: UseFormReturn) => {
+    value.email = value.CC + value.email
+    delete value.CC
     setApiError('');
 
     if (value.password !== value.confirmPassword) {
-      Form.setError('confirmPassword', { message: "Password doesn't match" });
+      Form.setError('confirmPassword', {message: "Password doesn't match"});
       return;
     }
 
@@ -40,7 +43,11 @@ export default function Register() {
         router.push('/');
       })
       .catch((e) => {
-        setApiError(e);
+        if (e.response?.data?.email?.[0]?.code === 'unique') {
+          const message = "user with phone number already exists"
+          // @ts-ignore
+          setApiError({code: e.code, message});
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -49,20 +56,20 @@ export default function Register() {
 
   return (
     <CompactLayout title="Create new account">
-      <Form onSubmit={onSubmit} className="space-y-4" model={{ type: 'patient' }}>
+      <Form onSubmit={onSubmit} className="space-y-4" model={{type: 'patient', CC: '+92'}}>
 
         {apiError && <ErrorMessage error={apiError}/>}
 
         <Controller
           name="type"
-          render={({ field: { value, onChange } }) => (
+          render={({field: {value, onChange}}) => (
             <RadioGroup value={value} onChange={onChange}>
               <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                 {['doctor', 'patient'].map((t) => (
                   <RadioGroup.Option
                     key={t}
                     value={t}
-                    className={({ checked, active }) =>
+                    className={({checked, active}) =>
                       c(
                         checked ? 'border-transparent' : 'border-gray-300',
                         active ? 'border-indigo-500 ring-2 ring-indigo-500' : '',
@@ -70,7 +77,7 @@ export default function Register() {
                       )
                     }
                   >
-                    {({ checked, active }) => (
+                    {({checked, active}) => (
                       <>
                         <div className="flex-1 flex">
                           <div className="flex flex-col">
@@ -100,21 +107,38 @@ export default function Register() {
           )}
         />
 
-        <FormField name="email" type="tel" label={"Phone Number"} required>
-          {({ errors, label, ...props }: FormInputFuncProps) => (
+        <FormField pattern={{value: /^\d{10}$/, message: 'Invalid Phone number'}} type="tel" name="email"
+                   label={"Phone"}
+                   required>
+          {({errors, label, ...props}: FormInputFuncProps) => (
             <div>
-              <label htmlFor="phonenumber" className="block text-sm font-medium text-gray-700">{label}</label>
-              <input
-                id="phonenumber" autoComplete="tel" {...props}
-                className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
-              />
+              <label htmlFor="name"
+                     className="block text-sm font-medium text-gray-700">{label}</label>
+              <div className="flex space-x-4">
+                <Controller
+                  name="CC"
+                  render={({field: {value, onChange}}) => (
+                    <select value={value} onChange={onChange}
+                            className="appearance-none shadow-sm block  pl-3  pr-8 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500">
+                      <option>+92</option>
+                      <option>+922</option>
+                    </select>
+                  )}
+                />
+
+                <input
+                  id="email" placeholder="300 0000000" autoComplete="tel" {...props}
+                  className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
+                />
+              </div>
+
               {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
             </div>
           )}
         </FormField>
 
         <FormField name="displayName" type="text" label={"Your Name"} required>
-          {({ errors, label, ...props }: FormInputFuncProps) => (
+          {({errors, label, ...props}: FormInputFuncProps) => (
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">{label}</label>
               <input
@@ -127,7 +151,7 @@ export default function Register() {
         </FormField>
 
         <FormField name="password" type="password" label={'Password'} required>
-          {({ errors, label, ...props }: FormInputFuncProps) => (
+          {({errors, label, ...props}: FormInputFuncProps) => (
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">{label}</label>
               <input
@@ -140,7 +164,7 @@ export default function Register() {
         </FormField>
 
         <FormField name="confirmPassword" type="password" label={"Confirm Password"} required>
-          {({ errors, label, ...props }: FormInputFuncProps) => (
+          {({errors, label, ...props}: FormInputFuncProps) => (
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">{label}</label>
               <input

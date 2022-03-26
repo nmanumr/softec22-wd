@@ -17,7 +17,8 @@ export default function Login() {
     const router = useRouter();
 
     if (isAuthenticated()) {
-        router.push('/');
+        router.push('/')
+        return <></>;
     }
 
     const onSubmit = async (value: Record<string, any>) => {
@@ -106,5 +107,5 @@ export default function Login() {
                 </div>
             </Form>
         </CompactLayout>
-    );
+    )
 }
