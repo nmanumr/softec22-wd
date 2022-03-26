@@ -5,7 +5,11 @@ import React, { useState } from 'react';
 import UserAvatar from "../../components/UserAvatar";
 import ProfileEdit from "../../components/ProfileEdit";
 import DashboardLayout from "../../layouts/DashboardLayout";
+<<<<<<< HEAD
+import DoctorRating from "../../components/DoctorRating";
+=======
 import ClinicTiming from "../../components/ClinicTiming";
+>>>>>>> 76943765922d1dacdf96206ffe5de06efb85f1c3
 
 
 export default function Profile() {
@@ -85,6 +89,9 @@ export default function Profile() {
                   </div>
                 )}
 
+<<<<<<< HEAD
+                {currentTab === "Ratings" && <DoctorRating/>}
+=======
                 {currentTab === "Profile" && <ProfileEdit/>}
                 {currentTab === "Clinic Timing" && <ClinicTiming/>}
                 {currentTab === "Ratings" && (
@@ -94,6 +101,7 @@ export default function Profile() {
                     </dl>
                   </div>
                 )}
+>>>>>>> 76943765922d1dacdf96206ffe5de06efb85f1c3
               </article>
             </main>
           </div>

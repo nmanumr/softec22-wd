@@ -1,23 +1,26 @@
 /* This example requires Tailwind CSS v2.0+ */
 import {useEffect, useRef} from 'react'
-import {format} from 'date-fns'
+import {addDays, format, getDay} from 'date-fns'
 
-export default function AppointmentTable({appointments}: React.PropsWithChildren<any>) {
+export default function AppointmentTable({appointments, startingHour = 8, onClick}: React.PropsWithChildren<any>) {
   const container: any = useRef(null)
   const containerNav: any = useRef(null)
   const containerOffset: any = useRef(null)
 
-  useEffect(() => {
-    // Set the container scroll position based on the current time.
-    const currentMinute = new Date().getHours() * 60
+  function scrollToHour(hour: number) {
+    const currentMinute = hour * 60
     container.current.scrollTop =
       ((container.current.scrollHeight - containerNav.current.offsetHeight - containerOffset.current.offsetHeight) *
         currentMinute) /
       1440
+  }
+
+  useEffect(() => {
+    scrollToHour(startingHour);
   }, [])
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full max-h-96 flex-col">
       <div ref={container} className="flex flex-auto flex-col overflow-auto bg-white">
         <div style={{width: '165%'}} className="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
           <div
@@ -55,42 +58,18 @@ export default function AppointmentTable({appointments}: React.PropsWithChildren
             <div
               className="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
               <div className="col-end-1 w-14"/>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Mon <span className="items-center justify-center font-semibold text-gray-900">10</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Tue <span className="items-center justify-center font-semibold text-gray-900">11</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span className="flex items-baseline">
-                  Wed{' '}
-                  <span className="items-center justify-center font-semibold text-gray-900">12</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Thu <span className="items-center justify-center font-semibold text-gray-900">13</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Fri <span className="items-center justify-center font-semibold text-gray-900">14</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Sat <span className="items-center justify-center font-semibold text-gray-900">15</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Sun <span className="items-center justify-center font-semibold text-gray-900">16</span>
-                </span>
-              </div>
+              {
+                Array(7).fill(0).map((_, i) => {
+                  return (
+                    <div className="flex items-center justify-center py-3">
+                      <span>
+                        {format(addDays(new Date(), i), "EEE")} <span
+                        className="items-center justify-center font-semibold text-gray-900">{format(addDays(new Date(), i), "d")}</span>
+                      </span>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
           <div className="flex flex-auto">
@@ -297,10 +276,10 @@ export default function AppointmentTable({appointments}: React.PropsWithChildren
                     let time = new Date(appointment['time']);
                     appointment['hourOffset'] = Math.floor((((time.getHours() * 60) + time.getMinutes()) / 5) + 2);
                     appointment['dateOffset'] = time.getDate() - new Date().getDate();
-                    console.log(appointment['dateOffset'])
 
                     return (
-                      <li className={`relative mt-px flex sm:col-start-${appointment['dateOffset']}`}
+                      <li onClick={() => onClick && onClick(appointment)}
+                          className={`${onClick && 'cursor-pointer'} relative mt-px flex sm:col-start-${appointment['dateOffset']}`}
                           style={{gridRow: `${appointment['hourOffset']} / span ${duration}`}}>
                         <div
                           className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100"
