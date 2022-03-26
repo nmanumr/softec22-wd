@@ -1,33 +1,19 @@
-import React, { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { XIcon } from '@heroicons/react/outline';
-import DashboardLayout from "../../layouts/DashboardLayout";
+import Axios from "axios";
 import useSWR from "swr";
+import c from 'classnames';
+import React, { useState } from 'react';
+
+import Button from "../../components/Button";
 import UserAvatar from "../../components/UserAvatar";
 import ErrorMessage from "../../components/ErrorMessage";
-import { Form, FormField, FormInputFuncProps } from "../../components/form";
+import DashboardLayout from "../../layouts/DashboardLayout";
 import { Controller, UseFormReturn } from "react-hook-form";
-import Button from "../../components/Button";
-import Axios from "axios";
-import { setToken } from "../../providers/auth";
-import { router } from "next/client";
+import { Form, FormField, FormInputFuncProps } from "../../components/form";
 
-
-const user = {
-  name: 'Tom Cook',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
-
-
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function Profile() {
   const [apiError, setApiError] = useState<string>();
-  const { data, error, mutate } = useSWR('/api/user/current');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data, mutate } = useSWR('/api/user/current');
   let [currentTab, selectCurrentTab] = useState("Profile")
   let [loading, setLoading] = useState(false);
 
@@ -59,73 +45,6 @@ export default function Profile() {
   return (
     <DashboardLayout>
       <div className="h-full flex -mt-10 relative">
-        <Transition.Root show={sidebarOpen} as={Fragment}>
-          <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={setSidebarOpen}>
-            <Transition.Child
-              as={Fragment}
-              enter="transition-opacity ease-linear duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity ease-linear duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75"/>
-            </Transition.Child>
-            <Transition.Child
-              as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="-translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="-translate-x-full"
-            >
-              <div
-                className="relative flex-1 flex flex-col max-w-xs w-full bg-white focus:outline-none">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-in-out duration-300"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="ease-in-out duration-300"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <div className="absolute top-0 right-0 -mr-12 pt-2">
-                    <button
-                      type="button"
-                      className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                      onClick={() => setSidebarOpen(false)}
-                    >
-                      <span className="sr-only">Close sidebar</span>
-                      <XIcon className="h-6 w-6 text-white" aria-hidden="true"/>
-                    </button>
-                  </div>
-                </Transition.Child>
-                <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
-                  <a href="#" className="flex-shrink-0 group block">
-                    <div className="flex items-center">
-                      <div>
-                        {/*<img className="inline-block h-10 w-10 rounded-full"*/}
-                        {/*     src={user.imageUrl} alt=""/>*/}
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">{user.name}</p>
-                        <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">View
-                          profile</p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </Transition.Child>
-            <div className="flex-shrink-0 w-14" aria-hidden="true">
-              {/* Force sidebar to shrink to fit close icon */}
-            </div>
-          </Dialog>
-        </Transition.Root>
-
         <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
 
           <div className="flex-1 relative z-0 flex overflow-hidden">
@@ -174,7 +93,7 @@ export default function Profile() {
                             onClick={() => {
                               selectCurrentTab(tab.name)
                             }}
-                            className={classNames(
+                            className={c(
                               tab.current
                                 ? 'border-pink-500 text-gray-900'
                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
