@@ -32,7 +32,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = (
             'avatar', 'display_name', 'email', 'is_email_verified',
             'is_phone_verified', 'gender', 'specialization',
-            'type', 'age', 'appointment_duration', 'rating', 'id'
+            'type', 'age', 'appointment_duration', 'rating', 'id',
+            'address', 'dob'
         )
         read_only_fields = ('is_email_verified', 'is_phone_verified')
 

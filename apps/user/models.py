@@ -28,7 +28,8 @@ class User(SoftDeleteModel, AbstractUser):
     gender = models.CharField(max_length=20, choices=GENDER_TYPE, blank=True, null=True)
 
     specialization = models.CharField(max_length=20, blank=True, null=True, default='General Physician')
-    age = models.IntegerField(blank=True, null=True)
+    dob = models.DateField(blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
 
     avatar = models.ImageField(upload_to='user_avatars', blank=True, null=True)
 
@@ -37,12 +38,18 @@ class User(SoftDeleteModel, AbstractUser):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    appointment_duration = models.IntegerField(blank=True, null=True, help_text='In minutes.')
+    appointment_duration = models.IntegerField(blank=True, null=True, help_text='In minutes.', default=15)
     rating = models.DecimalField(decimal_places=2, max_digits=10, default=0.0)
 
     date_joined = None
 
     objects = UserManager()
+
+    @property
+    def age(self):
+        if self.dob is None:
+            return None
+        return datetime.datetime.now().year - self.dob.year
 
     def clean(self):
         setattr(self, self.USERNAME_FIELD, self.normalize_username(self.get_username()))
