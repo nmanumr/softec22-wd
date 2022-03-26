@@ -23,8 +23,6 @@ export default function Login() {
     const onSubmit = async (value: Record<string, any>) => {
         value.phoneNumber = value.CC + value.phoneNumber;
         delete value.CC
-        console.log(value)
-        return
         setApiError('');
         setLoading(true);
 
