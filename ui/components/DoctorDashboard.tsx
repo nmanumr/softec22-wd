@@ -5,7 +5,8 @@ import UserAvatar from "./UserAvatar";
 import RemoteDataTable from "./RemoteDataTable";
 import PageHeader from "../components/PageHeader";
 import DashboardLayout from "../layouts/DashboardLayout";
-import { useConfirmation } from "./ConfirmationService";
+import {useConfirmation} from "./ConfirmationService";
+import AppointmentTable from "./AppointmentTable";
 
 const columns = [
   {
@@ -32,7 +33,8 @@ const columns = [
 
 export default function Home() {
   const confirm = useConfirmation();
-  const { data } = useSWR('/api/user/current');
+  const {data} = useSWR('/api/user/current');
+  const {data: appointments} = useSWR('/api/clinic/appointments/');
 
   const actions = [
     {
@@ -57,28 +59,7 @@ export default function Home() {
     <DashboardLayout>
       <PageHeader title="Appointments"/>
       {data && (
-        <RemoteDataTable
-          columns={[
-            {
-              key: 'patient',
-              name: 'Patient',
-              render: (row: any) => (
-                <div className="flex items-center space-x-2">
-                  <UserAvatar user={row.patient} classNames="h-8 w-8" />
-                  <div className="font-medium text-gray-800">{row.patient.displayName}</div>
-                </div>
-              ),
-            },
-            {
-              key: 'time',
-              name: 'Time',
-              render: (row: any) => (
-                <div className="font-medium text-gray-800">{row.patient.displayName}</div>
-              ),
-            }
-          ]}
-          apiUrl={`/api/clinic/appointments/`}
-        />
+        <AppointmentTable appointments={appointments}/>
       )}
     </DashboardLayout>
   );

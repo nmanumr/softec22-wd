@@ -1,11 +1,11 @@
-import { SearchIcon } from "@heroicons/react/solid";
+import {SearchIcon} from "@heroicons/react/solid";
 
 
 interface Props {
   onSearchChange?: (tag: string) => any
 }
 
-export default function SearchBar({ onSearchChange = () => undefined, }: Props) {
+export default function SearchBar({onSearchChange = (e: any) => undefined,}: Props) {
   return (
     <div className="bg-white rounded-full shadow-sm overflow-hidden border border-gray-200">
       <div className="relative mx-auto px-4">
