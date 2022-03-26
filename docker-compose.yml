@@ -1,0 +1,70 @@
+version: '3'
+volumes:
+  node_modules:
+  postgres:
+
+services:
+  messenger:
+    container_name: spa_messenger
+    hostname: spa_messenger
+    image: rabbitmq
+    command: "rabbitmq-server"
+    environment:
+      - "RABBITMQ_DEFAULT_USER=spa"
+      - "RABBITMQ_DEFAULT_PASS=spa"
+
+  db:
+    container_name: spa_db
+    hostname: spa_db
+    image: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - "POSTGRES_DB=spa"
+      - "POSTGRES_USER=spa"
+      - "POSTGRES_PASSWORD=spa"
+    ports:
+      - 54322:5432
+
+  redis:
+    image: redis
+    container_name: spa_redis
+    hostname: spa_redis
+
+  primary:
+    container_name: spa_primary
+    hostname: spa-erp.local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: spa
+    env_file: .env
+    command: >
+      bash -c "
+        sleep 5 &&
+        pip install -r requirements.txt &&
+        python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+    volumes:
+      - .:/app
+      - ./etc/emails/:/tmp/emails/
+    ports:
+      - 8000:8000
+
+  worker:
+    container_name: spa_worker
+    hostname: spa_worker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    command: >
+      bash -c "
+        sleep 5 &&
+        pip install -r requirements.txt &&
+        celery --app=spa:celery_app worker -n %h
+      "
+    volumes:
+      - .:/app
+      - ./etc/emails/:/tmp/emails/
