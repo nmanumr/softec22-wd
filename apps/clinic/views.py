@@ -39,7 +39,12 @@ class SearchDoctorApiView(GenericAPIView):
     permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        query = request.GET.get('query')
-        doctors = models.User.objects.filter(type='doctor').filter(Q(displayName__icontains=query) | Q(specialization__icontains=query))[:20]
+        query = request.GET.get('query', None)
+        doctors = models.User.objects.filter(type='doctor')
+
+        if query is not None:
+            doctors = doctors.filter(Q(displayName__icontains=query) | Q(specialization__icontains=query))
+
+        doctors = doctors[:20]
 
         return serializers.DoctorSerializer(doctors, many=True).data
