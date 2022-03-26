@@ -41,6 +41,12 @@ class CreateAccountView(CreateAPIViewEx, GenericAPIView):
     permission_classes = ()
     serializer_class = CreateUserSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return generate_access_token(user)
+
 
 class UserProfileView(UpdateAPIView, GenericAPIView):
     permission_classes = (IsAuthenticated,)

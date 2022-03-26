@@ -3,6 +3,7 @@ from django.contrib.auth.hashers import check_password
 from rest_framework import serializers
 
 from apps.user.models import User
+from apps.user.utils import suggest_username
 
 
 class AuthenticateUserSerializer(serializers.Serializer):
@@ -87,7 +88,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password')
+        fields = ('type', 'email', 'displayName', 'password')
 
     def validate_email(self, email):
         email = User.objects.normalize_email(email)
@@ -101,6 +102,9 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return email
 
     def create(self, validated_data):
+        if 'username' not in validated_data:
+            validated_data['username'] = suggest_username(validated_data['email'])
+
         return User.objects.create_user(**validated_data)
 
 
