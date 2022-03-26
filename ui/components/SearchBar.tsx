@@ -64,7 +64,7 @@ export default function SearchBar({
   const opacity = easeOutQuart(Math.max(0, 1 - scroll / 180));
 
   return (
-    <div className="bg-white shadow-md">
+    <div className="bg-white rounded-full shadow-sm overflow-hidden border border-gray-200">
       <div className="relative mx-auto max-w-screen-xl pr-4 sm:pr-6">
         <div
           className="absolute inset-y-0 ml-4 flex w-full max-w-sm items-center"
@@ -90,26 +90,13 @@ export default function SearchBar({
           <div className="min-w-content flex">
             <div className="sticky left-0 z-20 h-full w-8 bg-gradient-to-r from-white" />
 
-            <div className="relative z-10 ml-96 flex items-center space-x-3 py-7">
+            <div className="relative z-10 ml-96 flex items-center space-x-3 py-5">
               <Tag
                 onClick={() => onTagChange("all")}
                 isActive={selectedTag === "all"}
               >
                 All
               </Tag>
-
-              {isAuthenticated && (
-                <>
-                  <Tag
-                    isActive={selectedTag === "Recommended"}
-                    onClick={() => onTagChange("Recommended")}
-                    x={true}
-                  >
-                    Recommended
-                  </Tag>
-                  <div className="h-full w-px bg-gray-300" />
-                </>
-              )}
 
               {topics.map((name,k) => (
                 <Tag
