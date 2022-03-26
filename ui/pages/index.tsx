@@ -1,7 +1,9 @@
+import React from "react";
+import useSwr from 'swr';
+
+import DataTable from "../components/DataTable";
 import PageHeader from "../components/PageHeader";
 import DashboardLayout from "../layouts/DashboardLayout";
-import DataTable from "../components/DataTable";
-import React from "react";
 import {useConfirmation} from "../components/ConfirmationService";
 
 const columns = [
@@ -37,6 +39,8 @@ const data = [
 
 export default function Home() {
   const confirm = useConfirmation();
+  const {data: xData} = useSwr('/api/clinic/doctors/3/appointments/');
+  console.log(xData);
 
   const actions = [
     {
