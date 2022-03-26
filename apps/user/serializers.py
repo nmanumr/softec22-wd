@@ -29,8 +29,12 @@ class AuthenticateUserSerializer(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'avatar', 'display_name', 'first_name', 'last_name', 'email', 'is_email_verified')
-        read_only_fields = ('display_name', 'is_email_verified')
+        fields = (
+            'avatar', 'display_name', 'email', 'is_email_verified',
+            'is_phone_verified', 'gender', 'specialization',
+            'type', 'age', 'appointment_duration', 'rating'
+        )
+        read_only_fields = ('is_email_verified', 'is_phone_verified')
 
 
 class EmailVerificationSerializer(serializers.Serializer):

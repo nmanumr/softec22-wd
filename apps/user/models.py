@@ -27,6 +27,9 @@ class User(SoftDeleteModel, AbstractUser):
     displayName = models.CharField(max_length=255, null=True, blank=True)
     gender = models.CharField(max_length=20, choices=GENDER_TYPE, blank=True, null=True)
 
+    specialization = models.CharField(max_length=20, blank=True, null=True)
+    age = models.IntegerField(blank=True, null=True)
+
     avatar = models.ImageField(upload_to='user_avatars', blank=True, null=True)
 
     is_email_verified = models.BooleanField(default=False)
@@ -35,6 +38,7 @@ class User(SoftDeleteModel, AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     appointment_duration = models.IntegerField(blank=True, null=True, help_text='In minutes.')
+    rating = models.DecimalField(decimal_places=2, max_digits=10, default=0.0)
 
     date_joined = None
 
