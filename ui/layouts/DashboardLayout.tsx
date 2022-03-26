@@ -14,10 +14,10 @@ const navigation = [
     {name: 'Dashboard', href: '/'},
     {name: 'Doctors', href: '/doctors'},
     {name: 'History', href: '#'},
+    {name: 'Appointments', href: '/appointments'},
 ]
 const userNavigation = [
     {name: 'Profile', href: '#'},
-    {name: 'Settings', href: '#'},
     {name: 'Sign out', href: '#'},
 ]
 
@@ -26,14 +26,6 @@ export default function DashboardLayout({children}: React.PropsWithChildren<{}>)
 
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
             <div className="min-h-full">
                 <Disclosure as="nav" className="bg-white shadow-sm">
                     {({open}) => (

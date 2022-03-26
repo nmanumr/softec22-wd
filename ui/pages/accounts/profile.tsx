@@ -18,7 +18,7 @@ import {Tab} from '@headlessui/react'
 const user = {
     name: 'Tom Cook',
     imageUrl:
-        'https://media.istockphoto.com/photos/doctor-holding-digital-tablet-at-meeting-room-picture-id1189304032?k=20&m=1189304032&s=612x612&w=0&h=ovTNnR0JX2cRZkzMBed9exRO_PamZLlysLDFkXesr4Q=',
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
     {name: 'Dashboard', href: '#', icon: HomeIcon, current: false},
@@ -36,9 +36,9 @@ const secondaryNavigation = [
 const profile = {
     name: 'Ricardo Cooper',
     imageUrl:
-        'https://media.istockphoto.com/photos/doctor-holding-digital-tablet-at-meeting-room-picture-id1189304032?k=20&m=1189304032&s=612x612&w=0&h=ovTNnR0JX2cRZkzMBed9exRO_PamZLlysLDFkXesr4Q=',
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     coverImageUrl:
-        'https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
+        'https://media.istockphoto.com/photos/colorful-background-red-blue-and-yellow-orange-colors-abstract-modern-picture-id1332601848?b=1&k=20&m=1332601848&s=170667a&w=0&h=_zrnj0NBLjjuMfPvSqxEHn2-oVlExHhOPXP9HsOO_eI=',
     about: `
     <p>Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.</p>
     <p>Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.</p>
@@ -59,13 +59,10 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
-    let [currentTab,selectCurrentTab] = useState("Profile")
+export default function Profile() {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const tabs = [
-        {name: 'Profile', href: '#', current: currentTab === "Profile"},
-        {name: 'Calendar', href: '#', current: currentTab === 'Calendar'},
-        {name: 'Recognition', href: '#', current: currentTab === 'Recognition'},
+        {name: 'Profile', href: '#', current: true},
     ]
     // @ts-ignore
     // @ts-ignore
@@ -216,25 +213,6 @@ export default function Example() {
                                                 <div className="sm:hidden 2xl:block mt-6 min-w-0 flex-1">
                                                     <h1 className="text-2xl font-bold text-gray-900 truncate">{profile.name}</h1>
                                                 </div>
-                                                <div
-                                                    className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                                                    <button
-                                                        type="button"
-                                                        className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                                                    >
-                                                        <MailIcon className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                                                                  aria-hidden="true"/>
-                                                        <span>Message</span>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="inline-flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                                                    >
-                                                        <PhoneIcon className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                                                                   aria-hidden="true"/>
-                                                        <span>Call</span>
-                                                    </button>
-                                                </div>
                                             </div>
                                         </div>
                                         <div className="hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1">
@@ -252,9 +230,6 @@ export default function Example() {
                                                     <a
                                                         key={tab.name}
                                                         href={tab.href}
-                                                        onClick={()=>{
-                                                            selectCurrentTab(tab.name)
-                                                        }}
                                                         className={classNames(
                                                             tab.current
                                                                 ? 'border-pink-500 text-gray-900'
@@ -270,7 +245,7 @@ export default function Example() {
                                         </div>
                                     </div>
                                 </div>
-                                { currentTab==="Profile" && <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                             <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                                     <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                                         {Object.keys(profile.fields).map((field) => (
                                             <div key={field} className="sm:col-span-1">
@@ -280,33 +255,7 @@ export default function Example() {
                                         ))}
 
                                     </dl>
-                                </div>}
-
-                                { currentTab==="Calendar" && <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                                    <dl className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-2">
-                                        <p className="text-sm col-span-2">Active Hours </p>
-                                        <div className="grid grid-cols-6">
-                                        <p className="text-sm col-span-2">Monday</p>
-                                            <p className="text-sm col-span-2">09:00am - 05:00pm</p>
-
-                                        </div>
-                                    </dl>
-                                </div>}
-
-                                { currentTab==="Recognition" && <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                                    <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                                        <div className="sm:col-span-2">
-                                            <dd
-                                                className="mt-1 max-w-prose text-sm text-gray-900 space-y-5"
-                                                dangerouslySetInnerHTML={{__html: profile.about}}
-                                            />
-                                        </div>
-                                    </dl>
-                                </div>}
-
-                                {/* Description list */}
-
-
+                                </div>
                             </article>
                         </main>
                     </div>

@@ -36,8 +36,6 @@ class RetrieveUpdateDestroyAppointmentsAPIView(GenericAPIView, RetrieveUpdateDes
 
 
 class SearchDoctorApiView(GenericAPIView):
-    permission_classes = []
-
     def get(self, request, *args, **kwargs):
         query = request.GET.get('query', None)
         doctors = models.User.objects.filter(type='doctor')
@@ -48,3 +46,10 @@ class SearchDoctorApiView(GenericAPIView):
         doctors = doctors[:20]
 
         return serializers.DoctorSerializer(doctors, many=True).data
+
+
+class ListCreateDoctorRating(GenericAPIView, ListCreateAPIView):
+    serializer_class = serializers.RatingSerializer
+
+    def get_queryset(self):
+        return models.DoctorRating.objects.filter(doctor=self.kwargs['id'])

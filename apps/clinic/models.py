@@ -43,12 +43,14 @@ class ClinicTime(models.Model):
 class PatientAppointment(models.Model):
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_appointments')
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_appointments')
+    accepted = models.BooleanField(default=False)
     time = models.DateTimeField()
 
 
 class DoctorRating(models.Model):
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_ratings')
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_rating')
+    appointment = models.ForeignKey(PatientAppointment, on_delete=models.CASCADE, blank=True, null=True)
     rating = models.DecimalField(decimal_places=1, max_digits=4)
     description = models.TextField(null=True, blank=True)
 
