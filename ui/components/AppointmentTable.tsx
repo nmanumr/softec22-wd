@@ -20,7 +20,7 @@ export default function AppointmentTable({appointments, startingHour = 8, onClic
   }, [])
 
   return (
-    <div className="flex h-full max-h-96 flex-col">
+    <div className="flex h-full max-h-[900px] flex-col">
       <div ref={container} className="flex flex-auto flex-col overflow-auto bg-white">
         <div style={{width: '165%'}} className="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
           <div
