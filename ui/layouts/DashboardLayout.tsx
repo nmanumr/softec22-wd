@@ -8,7 +8,7 @@ import ProfileDropDown from "../components/ProfileDropDown";
 const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'Doctors', href: '/doctors' },
-  { name: 'History', href: '#' },
+  { name: 'History', href: '/patient/history' },
 ]
 
 export default function DashboardLayout({ children }: React.PropsWithChildren<{}>) {
