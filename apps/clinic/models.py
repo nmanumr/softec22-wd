@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models import Avg
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from apps.user.models import User
 
@@ -41,3 +44,17 @@ class PatientAppointment(models.Model):
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_appointments')
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_appointments')
     time = models.DateTimeField()
+
+
+class DoctorRating(models.Model):
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_ratings')
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_rating')
+    rating = models.DecimalField(decimal_places=1, max_digits=4)
+    description = models.TextField(null=True, blank=True)
+
+
+@receiver(post_save, sender=DoctorRating)
+def my_handler(sender, instance, **kwargs):
+    rating = DoctorRating.objects.filter(doctor=instance.doctor).aggregate(Avg('rating')) or 0
+    instance.doctor.rating = rating['rating__avg']
+    instance.doctor.save()
