@@ -7,7 +7,7 @@ export default function SettingsLayout({ children }: React.PropsWithChildren<{}>
   ];
 
   return (
-    <TabbedLayout title={t('title')} navigation={navigation}>
+    <TabbedLayout title={('title')} navigation={navigation}>
       {children}
     </TabbedLayout>
   );
