@@ -7,8 +7,8 @@ from apps.user.utils import suggest_username
 
 
 class AuthenticateUserSerializer(serializers.Serializer):
-    email = serializers.EmailField(max_length=64, trim_whitespace=False)
-    password = serializers.CharField(max_length=64, trim_whitespace=False)
+    email = serializers.CharField(max_length=64, trim_whitespace=False)
+    password = serializers.CharField(max_length=64)
 
     def validate(self, attrs):
         super().validate(attrs)

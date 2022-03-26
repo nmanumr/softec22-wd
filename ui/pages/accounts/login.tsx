@@ -42,7 +42,7 @@ export default function Login() {
 
         {apiError && <ErrorMessage error={apiError}/>}
 
-        <FormField name="email" type="email" label={"Email"} required>
+        <FormField name="email" type="tel" label={"Phone Number"} required>
           {({errors, label, ...props}: FormInputFuncProps) => (
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">{label}</label>
