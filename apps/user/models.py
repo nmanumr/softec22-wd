@@ -7,7 +7,7 @@ from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 
 from apps.user.managers import UserManager, EmailVerificationManager
-from spa.ext.soft_delete import SoftDeleteModel
+from clinicx.ext.soft_delete import SoftDeleteModel
 
 
 class User(SoftDeleteModel, AbstractUser):

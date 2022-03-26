@@ -10,7 +10,7 @@ from django.db.models.functions import Now
 from django.utils import timezone
 
 from apps.user.postman import send_verification_email
-from spa.ext.soft_delete import SoftDeleteManager
+from clinicx.ext.soft_delete import SoftDeleteManager
 
 
 class UserManager(SoftDeleteManager, AuthUserManager):

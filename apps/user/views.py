@@ -14,7 +14,7 @@ from apps.user.serializers import (
     AuthenticateUserSerializer, UserProfileSerializer, EmailVerificationSerializer, ChangePasswordSerializer,
     ForgetPasswordSerializer, ResetPasswordSerializer, CreateUserSerializer, PublicProfileSerializer
 )
-from spa.core.views import GenericAPIView, CreateAPIViewEx
+from clinicx.core.views import GenericAPIView, CreateAPIViewEx
 
 
 def generate_access_token(user):

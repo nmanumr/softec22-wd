@@ -1,4 +1,4 @@
-from spa.core.mail import send_template_mail
+from clinicx.core.mail import send_template_mail
 
 
 def send_password_reset_email(user, password_reset_url, request_identity):

@@ -6,7 +6,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
 
-from spa.ext.soft_delete import SoftDeleteModel
+from clinicx.ext.soft_delete import SoftDeleteModel
 
 
 class AccessToken(SoftDeleteModel):

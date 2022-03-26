@@ -5,7 +5,7 @@ RUN pip install -r requirements.txt --no-cache-dir
 
 # Only copy what is needed for Django to work
 COPY apps /app/apps
-COPY spa /app/spa
+COPY clinicx /app/clinicx
 COPY manage.py /app/manage.py
 
 WORKDIR /app

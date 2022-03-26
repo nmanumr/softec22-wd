@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-const TOKEN_KEY = 'spa.accessToken';
+const TOKEN_KEY = 'clinicx.accessToken';
 const isBrowser = typeof localStorage !== 'undefined';
 
 let savedAccessToken = '';

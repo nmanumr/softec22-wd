@@ -10,8 +10,8 @@ services:
     image: rabbitmq
     command: "rabbitmq-server"
     environment:
-      - "RABBITMQ_DEFAULT_USER=spa"
-      - "RABBITMQ_DEFAULT_PASS=spa"
+      - "RABBITMQ_DEFAULT_USER=clinicx"
+      - "RABBITMQ_DEFAULT_PASS=clinicx"
 
   db:
     container_name: spa_db
@@ -20,9 +20,9 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     environment:
-      - "POSTGRES_DB=spa"
-      - "POSTGRES_USER=spa"
-      - "POSTGRES_PASSWORD=spa"
+      - "POSTGRES_DB=clinicx"
+      - "POSTGRES_USER=clinicx"
+      - "POSTGRES_PASSWORD=clinicx"
     ports:
       - 54322:5432
 
@@ -33,11 +33,11 @@ services:
 
   primary:
     container_name: spa_primary
-    hostname: spa-erp.local
+    hostname: clinicx-erp.local
     build:
       context: .
       dockerfile: Dockerfile
-    image: spa
+    image: clinicx
     env_file: .env
     command: >
       bash -c "
@@ -63,7 +63,7 @@ services:
       bash -c "
         sleep 5 &&
         pip install -r requirements.txt &&
-        celery --app=spa:celery_app worker -n %h
+        celery --app=clinicx:celery_app worker -n %h
       "
     volumes:
       - .:/app
