@@ -21,7 +21,7 @@ export default function ProfileDropDown() {
   }
 
   return (
-    <Menu as="div" className="ml-3 relative">
+    <Menu as="div" className="ml-3 z-[3000]" >
       <div>
         <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
           <span className="sr-only">Open user menu</span>

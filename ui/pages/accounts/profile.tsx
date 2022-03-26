@@ -1,71 +1,49 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {
-  CalendarIcon,
-  CogIcon,
-  HomeIcon,
-  MapIcon,
-  SearchCircleIcon,
-  SpeakerphoneIcon,
-  UserGroupIcon,
-  ViewGridAddIcon,
-  XIcon,
-} from '@heroicons/react/outline';
+import { XIcon } from '@heroicons/react/outline';
 import DashboardLayout from "../../layouts/DashboardLayout";
+import useSWR from "swr";
+
 
 const user = {
   name: 'Tom Cook',
   imageUrl:
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
-const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Teams', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'Directory', href: '#', icon: SearchCircleIcon, current: true },
-  { name: 'Announcements', href: '#', icon: SpeakerphoneIcon, current: false },
-  { name: 'Office Map', href: '#', icon: MapIcon, current: false },
-]
-const secondaryNavigation = [
-  { name: 'Apps', href: '#', icon: ViewGridAddIcon },
-  { name: 'Settings', href: '#', icon: CogIcon },
-]
 
-const profile = {
-  name: 'Ricardo Cooper',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  coverImageUrl:
-    'https://media.istockphoto.com/photos/colorful-background-red-blue-and-yellow-orange-colors-abstract-modern-picture-id1332601848?b=1&k=20&m=1332601848&s=170667a&w=0&h=_zrnj0NBLjjuMfPvSqxEHn2-oVlExHhOPXP9HsOO_eI=',
-  about: `
-    <p>Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.</p>
-    <p>Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.</p>
-  `,
-  fields: {
-    Phone: '(555) 123-4567',
-    Email: 'ricardocooper@example.com',
-    Title: 'Senior Front-End Developer',
-    Team: 'Product Development',
-    Location: 'San Francisco',
-    Sits: 'Oasis, 4th floor',
-    Salary: '$145,000',
-    Birthday: 'June 8, 1990',
-  },
-}
+
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Profile() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { data } = useSWR('/api/user/current');
+  console.log(data)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  let [currentTab,selectCurrentTab] = useState("Profile")
+  const profile = {
+    name: data.displayName,
+    imageUrl:
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    coverImageUrl:
+      'https://media.istockphoto.com/photos/colorful-background-red-blue-and-yellow-orange-colors-abstract-modern-picture-id1332601848?b=1&k=20&m=1332601848&s=170667a&w=0&h=_zrnj0NBLjjuMfPvSqxEHn2-oVlExHhOPXP9HsOO_eI=',
+    fields: {
+      Phone: data.email,
+      Gender: data.gender || '-',
+      Address: 'San Francisco',
+      Specialization: data.Specialization || '-',
+      Birthday: data.DOB || '-',
+    },
+  }
   const tabs = [
-    { name: 'Profile', href: '#', current: true },
-  ];
+    {name: 'Profile', href: '#', current: currentTab === "Profile"},
+    {name: 'Ratings', href: '#', current: currentTab === "Ratings"},
+  ]
 
   return (
     <DashboardLayout>
-      <div className="h-full flex">
+      <div className="h-full flex -mt-10 relative">
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={setSidebarOpen}>
             <Transition.Child
@@ -110,57 +88,6 @@ export default function Profile() {
                     </button>
                   </div>
                 </Transition.Child>
-                <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-                  <div className="flex-shrink-0 flex items-center px-4">
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-logo-pink-500-mark-gray-900-text.svg"
-                      alt="Workflow"
-                    />
-                  </div>
-                  <nav aria-label="Sidebar" className="mt-5">
-                    <div className="px-2 space-y-1">
-                      {navigation.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? 'bg-gray-100 text-gray-900'
-                              : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                          )}
-                          aria-current={item.current ? 'page' : undefined}
-                        >
-                          <item.icon
-                            className={classNames(
-                              item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                              'mr-4 h-6 w-6'
-                            )}
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </a>
-                      ))}
-                    </div>
-                    <hr className="border-t border-gray-200 my-5" aria-hidden="true"/>
-                    <div className="px-2 space-y-1">
-                      {secondaryNavigation.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                        >
-                          <item.icon
-                            className="text-gray-400 group-hover:text-gray-500 mr-4 flex-shrink-0 h-6 w-6"
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </a>
-                      ))}
-                    </div>
-                  </nav>
-                </div>
                 <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
                   <a href="#" className="flex-shrink-0 group block">
                     <div className="flex items-center">
@@ -227,13 +154,13 @@ export default function Profile() {
                           <a
                             key={tab.name}
                             href={tab.href}
+                            onClick={()=>{selectCurrentTab(tab.name)}}
                             className={classNames(
                               tab.current
                                 ? 'border-pink-500 text-gray-900'
                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
                               'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                             )}
-                            aria-current={tab.current ? 'page' : undefined}
                           >
                             {tab.name}
                           </a>
@@ -242,7 +169,8 @@ export default function Profile() {
                     </div>
                   </div>
                 </div>
-                <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                {currentTab==="Profile" &&
+                    <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                   <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                     {Object.keys(profile.fields).map((field) => (
                       <div key={field} className="sm:col-span-1">
@@ -253,6 +181,16 @@ export default function Profile() {
 
                   </dl>
                 </div>
+                }
+
+                {currentTab==="Ratings" &&
+                    <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                          <p className="text-sm text-gray">Ratings Appear Here</p>
+                        </dl>
+                    </div>
+                }
+
               </article>
             </main>
           </div>
