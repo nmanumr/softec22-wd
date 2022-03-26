@@ -2,22 +2,25 @@
 import {useEffect, useRef} from 'react'
 import {format} from 'date-fns'
 
-export default function AppointmentTable({appointments}: React.PropsWithChildren<any>) {
+export default function AppointmentTable({appointments, startingHour = 8}: React.PropsWithChildren<any>) {
   const container: any = useRef(null)
   const containerNav: any = useRef(null)
   const containerOffset: any = useRef(null)
 
-  useEffect(() => {
-    // Set the container scroll position based on the current time.
-    const currentMinute = new Date().getHours() * 60
+  function scrollToHour(hour: number) {
+    const currentMinute = hour * 60
     container.current.scrollTop =
       ((container.current.scrollHeight - containerNav.current.offsetHeight - containerOffset.current.offsetHeight) *
         currentMinute) /
       1440
+  }
+
+  useEffect(() => {
+    scrollToHour(startingHour);
   }, [])
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full max-h-96 flex-col">
       <div ref={container} className="flex flex-auto flex-col overflow-auto bg-white">
         <div style={{width: '165%'}} className="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
           <div
