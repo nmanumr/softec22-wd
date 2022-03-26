@@ -3,6 +3,7 @@ from .auth import *
 from .base import *
 from .cache import *
 from .celery import *
+from .channels import *
 from .database import *
 from .drf import *
 from .email import *

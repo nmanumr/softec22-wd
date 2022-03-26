@@ -52,6 +52,24 @@ services:
     ports:
       - 8000:8000
 
+  coturn:
+    image: coturn/coturn:alpine
+    command:
+      - turnserver -v -L 0.0.0.0 \
+        --server-name "rashcam" \
+        --static-auth-secret="${TURN_SECRET}" \
+        --realm="rashcam" \
+        -p "3478" \
+        --min-port "49152" \
+        --max-port "65535" \
+        --no-cli \
+        --no-tls \
+        --no-dtls \
+        --no-stun
+    tmpfs:
+      - '/var/lib/coturn/'
+    network_mode: host
+
   worker:
     container_name: clinicx_worker
     hostname: clinicx_worker

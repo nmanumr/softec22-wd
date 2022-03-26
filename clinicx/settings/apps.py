@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'apps.token',
     'apps.user',
     'apps.clinic',
+    'apps.chat',
 ]
 
 PHONENUMBER_DEFAULT_REGION = 'US'
