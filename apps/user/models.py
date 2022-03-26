@@ -27,6 +27,9 @@ class User(SoftDeleteModel, AbstractUser):
     displayName = models.CharField(max_length=255, null=True, blank=True)
     gender = models.CharField(max_length=20, choices=GENDER_TYPE, blank=True, null=True)
 
+    specialization = models.CharField(max_length=20, blank=True, null=True)
+    age = models.IntegerField(blank=True, null=True)
+
     avatar = models.ImageField(upload_to='user_avatars', blank=True, null=True)
 
     is_email_verified = models.BooleanField(default=False)

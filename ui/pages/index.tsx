@@ -39,7 +39,7 @@ const data = [
 
 export default function Home() {
   const confirm = useConfirmation();
-  const {data: xData} = useSwr('/api/clinic/doctors/3/appointments/');
+  const {data: xData} = useSwr('/api/clinic/doctors/serach?query=nauman');
   console.log(xData);
 
   const actions = [
