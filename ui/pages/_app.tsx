@@ -1,13 +1,13 @@
 import Axios from 'axios';
 import Head from 'next/head';
-import { SWRConfig } from 'swr';
-import { AppProps } from 'next/app';
+import {SWRConfig} from 'swr';
+import {AppProps} from 'next/app';
 
 import '../providers/auth';
 import '../styles/tailwind.css';
 import {ConfirmationServiceProvider} from "../components/ConfirmationService";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({Component, pageProps}: AppProps) {
   const title = (Component as any).title || Component.name.replace(/([A-Z])/g, ' $1');
 
   return (
@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
     >
       <Head>
-        <title>{`${title} | Stock Alerts`}</title>
+        <title>{`${title} | ClinicX`}</title>
       </Head>
 
       <ConfirmationServiceProvider>
