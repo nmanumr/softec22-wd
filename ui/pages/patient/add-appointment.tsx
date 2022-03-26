@@ -15,6 +15,8 @@ export default function AddAppointment() {
   const [error, setError] = useState('');
   const router = useRouter();
 
+  const { doc: docId } = router.query;
+
   const onSubmit = (val: Record<string, any>) => {
     setError('');
     setLoading(true);
@@ -29,11 +31,11 @@ export default function AddAppointment() {
     <DashboardLayout>
       <PageHeader title="Add Appointment"/>
       <div>
-        <Form onSubmit={onSubmit} className="max-w-md space-y-6">
+        <Form onSubmit={onSubmit} model={{ doctor: docId }} className="max-w-md space-y-6">
 
           {error && <ErrorMessage error={error}/>}
 
-          <div>
+          <div className={docId ? 'hidden' : ''}>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Doctor</label>
             <Controller
               name="doctor"

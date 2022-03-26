@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }: React.PropsWithChildren<{}
                     <img
                       className="block h-8 w-auto"
                       src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt="Workflow"
+                      alt="ClinicX"
                     />
                     <span className="font-medium font-2xl">ClinicX</span>
                   </a>
