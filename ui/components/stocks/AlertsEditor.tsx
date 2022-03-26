@@ -50,7 +50,7 @@ export default function AlertsEditor({show, onClose}: React.PropsWithChildren<Pr
                   {alert.conditions.map((condition, i) => (
                     <div key={`${alert.id}-${i}`} className="flex items-center space-x-1">
                       <div className="rounded-md shadow-sm -space-x-px flex flex-1">
-                        <div className="w-34 flex-shrink-0">
+                        <div className="w-34 shrink-0">
                           <label htmlFor={`${alert.id}-condition`} className="sr-only">
                             Condition
                           </label>
@@ -116,7 +116,7 @@ export default function AlertsEditor({show, onClose}: React.PropsWithChildren<Pr
 
         </div>
 
-        <div className="flex-shrink-0 flex justify-end space-x-4 pt-4">
+        <div className="shrink-0 flex justify-end space-x-4 pt-4">
           <Button type="button" kind="secondary" onClick={() => onClose()}>Cancel</Button>
           <Button className="flex-1" type="submit" loading={loading}>Save</Button>
         </div>

@@ -18,10 +18,10 @@ export default function Doctors() {
       <div className="space-y-4 divide-y divide-gray-200 mt-10">
         {data?.map((doc: any) => (
           <div className="flex items-center py-4 px-4 sm:px-6 space-x-4" key={doc.id}>
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <UserAvatar user={doc} classNames="h-12 w-12 xl:w-12 xl:h-12"/>
             </div>
-            <div className="flex-grow">
+            <div className="grow">
               <div className="font-medium text-lg leading-6">{doc.displayName}</div>
               <div className="text-sm text-gray-600">{doc.specialization}</div>
             </div>
