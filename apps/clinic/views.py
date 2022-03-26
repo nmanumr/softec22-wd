@@ -62,4 +62,4 @@ class ListCreateDoctorRating(GenericAPIView, ListCreateAPIView):
     serializer_class = serializers.RatingSerializer
 
     def get_queryset(self):
-        return models.DoctorRating.objects.filter(doctor=self.kwargs['id'])
+        return models.DoctorRating.objects.filter(doctor=self.kwargs['pk'])

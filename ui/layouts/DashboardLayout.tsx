@@ -9,7 +9,6 @@ const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'Doctors', href: '/doctors' },
   { name: 'History', href: '#' },
-  { name: 'Appointments', href: '/appointments' },
 ]
 
 export default function DashboardLayout({ children }: React.PropsWithChildren<{}>) {
@@ -23,14 +22,14 @@ export default function DashboardLayout({ children }: React.PropsWithChildren<{}
             <>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex space-x-4 h-16">
-                  <div className="flex-shrink-0 flex items-center space-x-3">
+                  <a href="/" className="flex-shrink-0 flex items-center space-x-3">
                     <img
                       className="block h-8 w-auto"
                       src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                       alt="Workflow"
                     />
-                    <h4 className="font-medium font-2xl">ClinicX</h4>
-                  </div>
+                    <span className="font-medium font-2xl">ClinicX</span>
+                  </a>
 
                   <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                     {navigation.map((item) => (
