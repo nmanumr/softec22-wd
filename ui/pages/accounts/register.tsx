@@ -75,7 +75,7 @@ export default function Register() {
                         <div className="flex-1 flex">
                           <div className="flex flex-col">
                             <RadioGroup.Label as="span" className="block text-sm font-medium text-gray-900">
-                              I'm a {t}
+                              I&apos;m a {t}
                             </RadioGroup.Label>
                           </div>
                         </div>
