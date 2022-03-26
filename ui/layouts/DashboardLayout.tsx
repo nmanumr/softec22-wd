@@ -31,7 +31,7 @@ export default function DashboardLayout({ children }: React.PropsWithChildren<{}
                     <span className="font-medium font-2xl">ClinicX</span>
                   </a>
 
-                  <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+                  <div className="hidden sm:-my-px sm:pl-6 sm:flex sm:space-x-8">
                     {navigation.map((item) => (
                       <a
                         key={item.name}

@@ -51,7 +51,7 @@ class SearchDoctorApiView(GenericAPIView):
         doctors = models.User.objects.filter(type='doctor')
 
         if query is not None:
-            doctors = doctors.filter(Q(displayName__icontains=query) | Q(specialization__icontains=query))
+            doctors = doctors.filter(Q(display_name__icontains=query) | Q(specialization__icontains=query))
 
         doctors = doctors[:20]
 

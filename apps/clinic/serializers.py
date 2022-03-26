@@ -18,7 +18,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'avatar', 'display_name', 'email',
             'is_email_verified', 'is_phone_verified',
-            'gender', 'appointment_duration'
+            'gender', 'appointment_duration', 'specialization'
         )
         read_only_fields = ('display_name', 'is_email_verified', 'is_phone_verified')
 

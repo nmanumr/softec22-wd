@@ -1,6 +1,10 @@
 import DashboardLayout
   from "../../layouts/DashboardLayout";
 import SearchBar from "../../components/SearchBar";
+import { useEffect, useRef, useState } from "react";
+import useSWR from "swr";
+import UserAvatar from "../../components/UserAvatar";
+import Button from "../../components/Button";
 
 const people = [
   {
@@ -30,29 +34,30 @@ const people = [
 ]
 
 export default function Doctors() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const { data } = useSWR(`/api/clinic/doctors/search?query=${encodeURIComponent(searchQuery)}`);
+
+  console.log(data);
+
   return (
     <DashboardLayout>
-      <SearchBar/>
-      <div className="bg-slate">
-        <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
-          <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none"/>
-          <ul role="list" className="sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:grid-cols-3 lg:gap-8">
-            {people.map((person) => (
-              <li key={person.name} className="py-10 px-6 text-center rounded-lg xl:px-10 xl:text-left">
-                <div className="flex">
-                  <img className="h-20 w-20 rounded-full xl:w-22 xl:h-22 object-cover" src={person.imageUrl} alt=""/>
-                  <div className="space-y-2 ml-8 flex ">
-                    <div
-                      className="font-medium text-lg leading-6 flex flex-col justify-items-start align-start content-start">
-                      <h3 className="text-black">{person.name}</h3>
-                      <p className="text-indigo-400">{person.role}</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <SearchBar onSearchChange={setSearchQuery}/>
+
+      <div className="space-y-4 divide-y divide-gray-200 mt-10">
+        {data?.map((doc: any) => (
+          <div className="flex items-center py-4 px-4 sm:px-6 space-x-4" key={doc.id}>
+            <div className="flex-shrink-0">
+               <UserAvatar user={doc} classNames="h-12 w-12 xl:w-12 xl:h-12" />
+            </div>
+            <div className="flex-grow">
+              <div className="font-medium text-lg leading-6">{doc.displayName}</div>
+              <div className="text-sm text-gray-600">{doc.specialization}</div>
+            </div>
+            <div>
+              <button className="text-sm text-indigo-600 font-medium py-2 px-4 bg-indigo-50 rounded">Add Appointment</button>
+            </div>
+          </div>
+        ))}
       </div>
     </DashboardLayout>
   )
