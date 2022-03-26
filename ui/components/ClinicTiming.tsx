@@ -53,7 +53,7 @@ export default function ClinicTiming() {
   const [apiError, setApiError] = useState<string>();
   const [loading, setLoading] = useState(false);
   const { data, mutate } = useSWR('/api/clinic/timings');
-  const newData = data?.reduce((a, e) => ({ ...a, [e.day]: e }), {});
+  const newData = data?.reduce((a: Record<string, any>, e: Record<string, any>) => ({ ...a, [e.day]: e }), {});
   console.log(newData);
 
   const onSubmit = async (value: Record<string, any>, Form: UseFormReturn) => {
