@@ -53,6 +53,7 @@ class UserProfileView(UpdateAPIView, GenericAPIView):
     serializer_class = UserProfileSerializer
 
     def get_object(self):
+        print(self.request.user, flush=True)
         return self.request.user
 
     def get(self, request):

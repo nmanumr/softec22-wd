@@ -4,7 +4,7 @@ import ErrorMessage from './ErrorMessage';
 
 interface Props<R> {
   columns: Column<R>[];
-  actions: Action<R>[];
+  actions?: Action<R>[];
   apiUrl: string;
 }
 

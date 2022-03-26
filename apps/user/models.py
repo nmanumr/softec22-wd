@@ -24,7 +24,7 @@ class User(SoftDeleteModel, AbstractUser):
 
     type = models.CharField(choices=USER_TYPE, max_length=7)
     email = PhoneNumberField(blank=True, null=True, unique=True)
-    displayName = models.CharField(max_length=255, null=True, blank=True)
+    display_name = models.CharField(max_length=255, null=True, blank=True)
     gender = models.CharField(max_length=20, choices=GENDER_TYPE, blank=True, null=True)
 
     specialization = models.CharField(max_length=20, blank=True, null=True)
@@ -47,12 +47,8 @@ class User(SoftDeleteModel, AbstractUser):
     def clean(self):
         setattr(self, self.USERNAME_FIELD, self.normalize_username(self.get_username()))
 
-    @property
-    def display_name(self):
-        return self.get_full_name() or self.username
-
     def __str__(self):
-        return self.display_name
+        return self.display_name or self.username
 
 
 class EmailVerification(models.Model):
