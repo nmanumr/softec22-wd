@@ -13,7 +13,7 @@ export default function ProfileDropDown() {
 
   const logout = async () => {
     setToken();
-    await router.push('/login');
+    await router.push('/accounts/login');
   };
 
   if (!data) {

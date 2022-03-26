@@ -21,7 +21,7 @@ export default function Login() {
     }
 
     const onSubmit = async (value: Record<string, any>) => {
-        value.phoneNumber = value.CC + value.phoneNumber;
+        value.email = value.CC + value.email;
         delete value.CC
         setApiError('');
         setLoading(true);
@@ -45,7 +45,7 @@ export default function Login() {
 
                 {apiError && <ErrorMessage error={apiError}/>}
 
-                <FormField pattern={{value: /^\d{10}$/, message: 'Invalid Phone number'}} type="tel" name="phoneNumber"
+                <FormField pattern={{value: /^\d{10}$/, message: 'Invalid Phone number'}} type="tel" name="email"
                            label={"Phone"}
                            required>
                     {({errors, label, ...props}: FormInputFuncProps) => (
