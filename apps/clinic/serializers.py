@@ -33,14 +33,18 @@ class PatientWithHistorySerializer(serializers.ModelSerializer):
             'patient_history_set'
         )
 
-
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = (
-            'avatar', 'display_name', 'email',
-            'gender',
-        )
+        fields = ('avatar', 'display_name', 'email', 'gender')
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    patient = PatientSerializer()
+
+    class Meta:
+        model = models.DoctorRating
+        fields = ('patient', 'rating', 'description')
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
