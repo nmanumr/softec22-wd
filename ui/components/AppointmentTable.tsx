@@ -2,7 +2,7 @@
 import {useEffect, useRef} from 'react'
 import {addDays, format, getDay} from 'date-fns'
 
-export default function AppointmentTable({appointments, startingHour = 8}: React.PropsWithChildren<any>) {
+export default function AppointmentTable({appointments, startingHour = 8, onClick}: React.PropsWithChildren<any>) {
   const container: any = useRef(null)
   const containerNav: any = useRef(null)
   const containerOffset: any = useRef(null)
@@ -64,7 +64,7 @@ export default function AppointmentTable({appointments, startingHour = 8}: React
                     <div className="flex items-center justify-center py-3">
                       <span>
                         {format(addDays(new Date(), i), "EEE")} <span
-                          className="items-center justify-center font-semibold text-gray-900">{format(addDays(new Date(), i), "d")}</span>
+                        className="items-center justify-center font-semibold text-gray-900">{format(addDays(new Date(), i), "d")}</span>
                       </span>
                     </div>
                   )
@@ -276,10 +276,10 @@ export default function AppointmentTable({appointments, startingHour = 8}: React
                     let time = new Date(appointment['time']);
                     appointment['hourOffset'] = Math.floor((((time.getHours() * 60) + time.getMinutes()) / 5) + 2);
                     appointment['dateOffset'] = time.getDate() - new Date().getDate();
-                    console.log(appointment['dateOffset'])
 
                     return (
-                      <li className={`relative mt-px flex sm:col-start-${appointment['dateOffset']}`}
+                      <li onClick={() => onClick && onClick(appointment)}
+                          className={`${onClick && 'cursor-pointer'} relative mt-px flex sm:col-start-${appointment['dateOffset']}`}
                           style={{gridRow: `${appointment['hourOffset']} / span ${duration}`}}>
                         <div
                           className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100"
