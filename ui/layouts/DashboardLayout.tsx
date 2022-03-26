@@ -4,6 +4,7 @@ import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 
 import ProfileDropDown from "../components/ProfileDropDown";
+import {isAuthenticated} from "../providers/auth";
 
 const navigation = [
   { name: 'Dashboard', href: '/' },
@@ -13,6 +14,11 @@ const navigation = [
 
 export default function DashboardLayout({ children }: React.PropsWithChildren<{}>) {
   const router = useRouter();
+
+  if (typeof window !== 'undefined' && !isAuthenticated()) {
+    router.push('/accounts/login')
+    return <></>;
+  }
 
   return (
     <>
