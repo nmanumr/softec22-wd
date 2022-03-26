@@ -92,7 +92,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('type', 'email', 'displayName', 'password')
+        fields = ('type', 'email', 'display_name', 'password')
 
     def validate_email(self, email):
         email = User.objects.normalize_email(email)

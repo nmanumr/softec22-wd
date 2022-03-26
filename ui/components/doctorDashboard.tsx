@@ -1,11 +1,11 @@
+import useSWR from "swr";
+import React from "react";
+
+import UserAvatar from "./UserAvatar";
+import RemoteDataTable from "./RemoteDataTable";
 import PageHeader from "../components/PageHeader";
 import DashboardLayout from "../layouts/DashboardLayout";
-import DataTable from "../components/DataTable";
-import React from "react";
 import { useConfirmation } from "../components/ConfirmationService";
-import RemoteDataTable from "./RemoteDataTable";
-import useSWR from "swr";
-import UserAvatar from "./UserAvatar";
 
 const columns = [
   {
