@@ -1,6 +1,5 @@
 import useSWR from "swr";
 import React from "react";
-import {} from 'date-fns'
 
 import UserAvatar from "./UserAvatar";
 import RemoteDataTable from "./RemoteDataTable";
@@ -60,7 +59,7 @@ export default function Home() {
   return (
     <DashboardLayout>
       <PageHeader title="Appointments">
-        <Button kind="secondary">New Appointment</Button>
+        <Button kind="secondary" href='/patient/add-appointment/'>New Appointment</Button>
       </PageHeader>
       {data && (
         <RemoteDataTable
