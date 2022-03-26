@@ -22,7 +22,7 @@ interface FormInputProps {
   label?: string,
   required?: boolean,
   type: string,
-  pattern?: RegExp,
+  pattern?: { value: RegExp, message: string },
   minLength?: number,
   maxLength?: number,
   onChange?: (e: {target: any, type?: any}, form: UseFormReturn) => void,
