@@ -13,6 +13,7 @@ INSTALLED_APPS = [
 
     'apps.token',
     'apps.user',
+    'apps.clinic',
 ]
 
 PHONENUMBER_DEFAULT_REGION = 'US'

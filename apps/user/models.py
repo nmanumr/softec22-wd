@@ -11,14 +11,30 @@ from clinicx.ext.soft_delete import SoftDeleteModel
 
 
 class User(SoftDeleteModel, AbstractUser):
+    USER_TYPE = (
+        (1, 'Doctor'),
+        (2, 'Patient'),
+        (3, 'Admin')
+    )
+    GENDER_TYPE = (
+        ('MALE', 'Male'),
+        ('FEMALe', 'Female'),
+        ('OTHER', 'Other')
+    )
+
+    type = models.IntegerField(choices=USER_TYPE)
     email = models.EmailField(unique=True)
+    gender = models.CharField(max_length=20, choices=GENDER_TYPE, blank=True, null=True)
+
     phone_number = PhoneNumberField(blank=True, null=True)
     avatar = models.ImageField(upload_to='user_avatars', blank=True, null=True)
 
-    is_verified = models.BooleanField(default=False)
+    is_email_verified = models.BooleanField(default=False)
+    is_phone_verified = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    appointment_duration = models.IntegerField(blank=True, null=True, help_text='In minutes.')
 
     date_joined = None
 

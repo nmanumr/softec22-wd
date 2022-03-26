@@ -79,8 +79,8 @@ class EmailVerificationView(GenericAPIView):
             )
 
         user = User.objects.get(email=email_verification.email)
-        user.is_verified = True
-        user.save(update_fields=['is_verified', 'updated_at'])
+        user.is_email_verified = True
+        user.save(update_fields=['is_email_verified', 'updated_at'])
 
         return {
             'uid': int_to_base36(user.id),
