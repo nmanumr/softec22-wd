@@ -25,19 +25,19 @@ class PatientHistory(models.Model):
 
 class ClinicTime(models.Model):
     DAYS = (
-        ('mon', 'Monday'),
-        ('tue', 'Tuesday'),
-        ('wed', 'Wednesday'),
-        ('thu', 'Thursday'),
-        ('fri', 'Friday'),
-        ('sat', 'Saturday'),
-        ('sun', 'Sunday'),
+        ('monday', 'Monday'),
+        ('tuesday', 'Tuesday'),
+        ('wednesday', 'Wednesday'),
+        ('thursday', 'Thursday'),
+        ('friday', 'Friday'),
+        ('saturday', 'Saturday'),
+        ('sunday', 'Sunday'),
     )
 
     start_time = models.TimeField()
     end_time = models.TimeField()
     doctor = models.ForeignKey(User, on_delete=models.CASCADE)
-    day = models.CharField(choices=DAYS, max_length=4)
+    day = models.CharField(choices=DAYS, max_length=15)
 
 
 class PatientAppointment(models.Model):

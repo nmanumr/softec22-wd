@@ -9,6 +9,7 @@ urlpatterns = [
     path('doctors/<pk>/', views.RetrieveDoctorApiView.as_view()),
     path('doctors/<pk>/rating/', views.ListCreateDoctorRating.as_view()),
     path('patient/<pk>/', views.RetrievePatientApiView.as_view()),
+    path('timings/', views.ListCreateClinicTiming.as_view()),
     path('appointments/', views.ListCreateAppointmentAPIView.as_view()),
     path('appointments/<pk>/', views.RetrieveUpdateDestroyAppointmentsAPIView.as_view()),
 ]

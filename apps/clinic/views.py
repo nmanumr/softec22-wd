@@ -58,6 +58,21 @@ class SearchDoctorApiView(GenericAPIView):
         return serializers.DoctorSerializer(doctors, many=True).data
 
 
+class ListCreateClinicTiming(GenericAPIView):
+    serializer_class = serializers.ListCreateClinicTiming
+
+    def get(self, request, *args, **kwargs):
+        queryset = models.ClinicTime.objects.filter(doctor=self.request.user)
+        serializer = self.serializer_class(queryset, many=True)
+        return serializer.data
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, many=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(doctor=self.request.user)
+        return serializer.data
+
+
 class ListCreateDoctorRating(GenericAPIView, ListCreateAPIView):
     serializer_class = serializers.RatingSerializer
 

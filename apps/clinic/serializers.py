@@ -4,6 +4,12 @@ from apps.user.models import User
 from apps.clinic import models
 
 
+class ListCreateClinicTiming(serializers.ModelSerializer):
+    class Meta:
+        model = models.ClinicTime
+        fields = ('start_time', 'end_time', 'day')
+
+
 class PatientHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PatientHistory
