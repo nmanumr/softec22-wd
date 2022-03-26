@@ -32,38 +32,36 @@ export default function DashboardLayout({ children }: React.PropsWithChildren<{}
           {({ open }) => (
             <>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                  <div className="flex">
-                    <div className="flex-shrink-0 flex items-center">
-                      <img
-                        className="block lg:hidden h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                        alt="Workflow"
-                      />
-                      <img
-                        className="hidden lg:block h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                        alt="Workflow"
-                      />
-                    </div>
-                    <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-                      {navigation.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className={c(
-                            item.href == router.pathname
-                              ? 'border-indigo-500 text-gray-900'
-                              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                            'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
-                          )}
-                        >
-                          {item.name}
-                        </a>
-                      ))}
-                    </div>
+                <div className="flex space-x-4 h-16">
+                  <div className="flex-shrink-0 flex items-center space-x-3">
+                    <img
+                      className="block h-8 w-auto"
+                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                      alt="Workflow"
+                    />
+                    <h4 className="font-medium font-2xl">ClinicX</h4>
                   </div>
-                  <div className="hidden sm:ml-6 sm:flex sm:items-center">
+
+                  <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+                    {navigation.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className={c(
+                          item.href == router.pathname
+                            ? 'border-indigo-500 text-gray-900'
+                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                          'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
+                        )}
+                      >
+                        {item.name}
+                      </a>
+                    ))}
+                  </div>
+
+                  <div className="flex-grow" />
+
+                  <div className="flex items-center">
                     <ProfileDropDown />
                   </div>
                   <div className="-mr-2 flex items-center sm:hidden">
@@ -99,42 +97,12 @@ export default function DashboardLayout({ children }: React.PropsWithChildren<{}
                     </Disclosure.Button>
                   ))}
                 </div>
-                <div className="pt-4 pb-3 border-t border-gray-200">
-                  <div className="flex items-center px-4">
-                    <div className="flex-shrink-0">
-                      <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt=""/>
-                    </div>
-                    <div className="ml-3">
-                      <div className="text-base font-medium text-gray-800">{user.name}</div>
-                      <div className="text-sm font-medium text-gray-500">{user.email}</div>
-                    </div>
-                    <button
-                      type="button"
-                      className="ml-auto bg-white flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                      <span className="sr-only">View notifications</span>
-                      <BellIcon className="h-6 w-6" aria-hidden="true"/>
-                    </button>
-                  </div>
-                  <div className="mt-3 space-y-1">
-                    {userNavigation.map((item) => (
-                      <Disclosure.Button
-                        key={item.name}
-                        as="a"
-                        href={item.href}
-                        className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                      >
-                        {item.name}
-                      </Disclosure.Button>
-                    ))}
-                  </div>
-                </div>
               </Disclosure.Panel>
             </>
           )}
         </Disclosure>
 
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {children}
         </div>
       </div>
