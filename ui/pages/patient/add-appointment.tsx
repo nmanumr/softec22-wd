@@ -1,14 +1,28 @@
+import { useState } from "react";
 import { Controller } from "react-hook-form";
 
 import Button from "../../components/Button";
 import PageHeader from "../../components/PageHeader";
 import RemoteSelect from "../../components/RemoteSelect";
+import ErrorMessage from "../../components/ErrorMessage";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import { Form, FormField, FormInputFuncProps } from "../../components/form";
+import Axios from "axios";
+import { useRouter } from "next/router";
 
 export default function AddAppointment() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
+
   const onSubmit = (val: Record<string, any>) => {
-    console.log(val);
+    setError('');
+    setLoading(true);
+
+    Axios.post('/api/clinic/appointments/', val)
+      .then(() => router.push('/'))
+      .catch((e) => setError(e))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -16,6 +30,9 @@ export default function AddAppointment() {
       <PageHeader title="Add Appointment"/>
       <div>
         <Form onSubmit={onSubmit} className="max-w-md space-y-6">
+
+          {error && <ErrorMessage error={error}/>}
+
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Doctor</label>
             <Controller
@@ -46,7 +63,7 @@ export default function AddAppointment() {
           </FormField>
 
           <div>
-            <Button type="submit">Add Appointment</Button>
+            <Button loading={loading} type="submit">Add Appointment</Button>
           </div>
         </Form>
       </div>
