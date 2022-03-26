@@ -1,30 +1,22 @@
-import Axios from "axios";
 import useSWR from "swr";
 import c from 'classnames';
 import React, { useState } from 'react';
 
-import Button from "../../components/Button";
 import UserAvatar from "../../components/UserAvatar";
-import ErrorMessage from "../../components/ErrorMessage";
-import DashboardLayout from "../../layouts/DashboardLayout";
-import { Controller, UseFormReturn } from "react-hook-form";
-import { Form, FormField, FormInputFuncProps } from "../../components/form";
 import ProfileEdit from "../../components/ProfileEdit";
+import DashboardLayout from "../../layouts/DashboardLayout";
 
 
 export default function Profile() {
-
   const { data } = useSWR('/api/user/current');
   let [currentTab, selectCurrentTab] = useState("Profile")
 
-  const tabs = [
-    { name: 'Profile', href: '#', current: currentTab === "Profile" },
-    { name: 'Ratings', href: '#', current: currentTab === "Ratings" },
-  ]
-  if (!data) return (
-    <DashboardLayout/>
-  )
-  console.log(data)
+  const tabs = data?.type === 'doctor' ? ['Profile', 'Clinic Timing', 'Ratings'] : [];
+
+  if (!data) {
+    return <DashboardLayout/>;
+  }
+
   return (
     <DashboardLayout>
       <div className="h-full flex -mt-10 relative">
@@ -65,31 +57,30 @@ export default function Profile() {
                 </div>
 
                 {/* Tabs */}
-                <div className="mt-6 sm:mt-2 2xl:mt-5">
-                  <div className="border-b border-gray-200">
-                    <div className="max-w-5xl px-4 sm:px-6 lg:px-8">
-                      <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-                        {tabs.map((tab) => (
-                          <a
-                            key={tab.name}
-                            href={tab.href}
-                            onClick={() => {
-                              selectCurrentTab(tab.name)
-                            }}
-                            className={c(
-                              tab.current
-                                ? 'border-indigo-600 text-gray-900'
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
-                            )}
-                          >
-                            {tab.name}
-                          </a>
-                        ))}
-                      </nav>
+                {tabs.length > 0 && (
+                  <div className="mt-6 sm:mt-2 2xl:mt-5">
+                    <div className="border-b border-gray-200">
+                      <div className="max-w-5xl px-4 sm:px-6 lg:px-8">
+                        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                          {tabs.map((tab) => (
+                            <button
+                              key={tab}
+                              onClick={() => selectCurrentTab(tab)}
+                              className={c(
+                                currentTab === tab
+                                  ? 'border-indigo-600 text-gray-900'
+                                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                                'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
+                              )}
+                            >
+                              {tab}
+                            </button>
+                          ))}
+                        </nav>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
                 {currentTab === "Profile" && <ProfileEdit/>}
 
                 {currentTab === "Ratings" && (
