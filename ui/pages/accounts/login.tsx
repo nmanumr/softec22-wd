@@ -62,7 +62,6 @@ export default function Login() {
                       className="appearance-none shadow-sm block  pl-3  pr-8 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
                     >
                       <option>+92</option>
-                      <option>+922</option>
                     </select>
                   )}
                 />

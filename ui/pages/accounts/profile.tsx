@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import UserAvatar from "../../components/UserAvatar";
 import ProfileEdit from "../../components/ProfileEdit";
 import DashboardLayout from "../../layouts/DashboardLayout";
+import DoctorRating from "../../components/DoctorRating";
 
 
 export default function Profile() {
@@ -83,13 +84,7 @@ export default function Profile() {
                 )}
                 {currentTab === "Profile" && <ProfileEdit/>}
 
-                {currentTab === "Ratings" && (
-                  <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                      <p className="text-sm text-gray">Ratings Appear Here</p>
-                    </dl>
-                  </div>
-                )}
+                {currentTab === "Ratings" && <DoctorRating/>}
               </article>
             </main>
           </div>

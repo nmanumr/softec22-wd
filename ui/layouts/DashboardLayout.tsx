@@ -1,3 +1,4 @@
+import useSWR from "swr";
 import c from 'classnames'
 import { useRouter } from "next/router";
 import { Disclosure } from '@headlessui/react';
@@ -6,14 +7,14 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import ProfileDropDown from "../components/ProfileDropDown";
 import {isAuthenticated} from "../providers/auth";
 
-const navigation = [
-  { name: 'Dashboard', href: '/' },
-  { name: 'Doctors', href: '/doctors' },
-  { name: 'History', href: '/patient/history' },
-]
-
 export default function DashboardLayout({ children }: React.PropsWithChildren<{}>) {
+  const { data } = useSWR('/api/user/current');
   const router = useRouter();
+  const navigation = data && data.type==='doctor'
+    ?[{name: 'Dashboard', href: '/'}]
+    :[{ name: 'Dashboard', href: '/' },
+      { name: 'Doctors', href: '/doctors' },
+      { name: 'History', href: '/patient/history' }]
 
   if (typeof window !== 'undefined' && !isAuthenticated()) {
     router.push('/accounts/login')
@@ -96,7 +97,6 @@ export default function DashboardLayout({ children }: React.PropsWithChildren<{}
             </>
           )}
         </Disclosure>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {children}
         </div>
