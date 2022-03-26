@@ -107,6 +107,7 @@ export default function Register() {
           )}
         />
 
+
         <FormField pattern={{value: /^\d{10}$/, message: 'Invalid Phone number'}} type="tel" name="email"
                    label={"Phone"}
                    required>
@@ -145,6 +146,33 @@ export default function Register() {
                 id="name" autoComplete="name" {...props}
                 className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
               />
+              {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
+            </div>
+          )}
+        </FormField>
+
+        {/*GENDER*/}
+        <FormField type="gender" name="gender"
+                   label={"Gender"}
+                   required>
+          {({errors, label, ...props}: FormInputFuncProps) => (
+            <div>
+              <label htmlFor="name"
+                     className="block text-sm font-medium text-gray-700">{label}</label>
+              <div className="flex space-x-4">
+                <Controller
+                  name="gender"
+                  render={({field: {value, onChange}}) => (
+                    <select value={value} onChange={onChange}
+                            className="appearance-none shadow-sm block  pl-3  pr-8 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 w-full">
+                      <option value="MALE">Male</option>
+                      <option value="FEMALE">Female</option>
+                      <option value="OTHER">Other</option>
+                    </select>
+                  )}
+                />
+              </div>
+
               {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
             </div>
           )}
