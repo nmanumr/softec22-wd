@@ -40,6 +40,9 @@ class User(SoftDeleteModel, AbstractUser):
 
     objects = UserManager()
 
+    def clean(self):
+        setattr(self, self.USERNAME_FIELD, self.normalize_username(self.get_username()))
+
     @property
     def display_name(self):
         return self.get_full_name() or self.username
