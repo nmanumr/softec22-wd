@@ -26,3 +26,9 @@ class ListCreateAppointmentAPIView(GenericAPIView, ListCreateAPIView):
     def get_queryset(self):
         return models.PatientAppointment.objects.filter(doctor=self.kwargs['id'])
 
+
+class RetrieveUpdateDestroyAppointmentsAPIView(GenericAPIView, RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = serializers.AppointmentSerializer
+    queryset = models.PatientAppointment
+
