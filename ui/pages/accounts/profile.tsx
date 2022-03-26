@@ -9,31 +9,14 @@ import ErrorMessage from "../../components/ErrorMessage";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import { Controller, UseFormReturn } from "react-hook-form";
 import { Form, FormField, FormInputFuncProps } from "../../components/form";
+import ProfileEdit from "../../components/ProfileEdit";
 
 
 export default function Profile() {
-  const [apiError, setApiError] = useState<string>();
-  const { data, mutate } = useSWR('/api/user/current');
+
+  const { data } = useSWR('/api/user/current');
   let [currentTab, selectCurrentTab] = useState("Profile")
-  let [loading, setLoading] = useState(false);
 
-  const onSubmit = async (value: Record<string, any>, Form: UseFormReturn) => {
-    value.type = data.type;
-    console.log(value);
-    if (value.password !== value.confirmPassword) {
-      Form.setError('confirmPassword', { message: "Password doesn't match" });
-      return;
-    }
-
-    // @ts-ignore
-    setLoading(true);
-    delete value.confirmPassword
-
-    Axios.put('/api/user/current/', value)
-      .then(() => mutate())
-      .catch((e) => setApiError(e))
-      .finally(() => setLoading(false));
-  };
   const tabs = [
     { name: 'Profile', href: '#', current: currentTab === "Profile" },
     { name: 'Ratings', href: '#', current: currentTab === "Ratings" },
@@ -95,7 +78,7 @@ export default function Profile() {
                             }}
                             className={c(
                               tab.current
-                                ? 'border-pink-500 text-gray-900'
+                                ? 'border-indigo-600 text-gray-900'
                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
                               'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                             )}
@@ -107,139 +90,15 @@ export default function Profile() {
                     </div>
                   </div>
                 </div>
-                {currentTab === "Profile" &&
-                  <div className="mt-6 max-w-lg  px-4 sm:px-6 lg:px-8">
+                {currentTab === "Profile" && <ProfileEdit/>}
 
-                    <Form
-                      model={data}
-                      onSubmit={onSubmit}
-                      className="space-y-4">
-
-                      {apiError && <ErrorMessage error={apiError}/>}
-
-                      <FormField type="tel" name="email"
-                                 label={"Phone"}
-                                 required>
-                        {({ errors, label, ...props }: FormInputFuncProps) => (
-                          <div>
-                            <label htmlFor="name"
-                                   className="block text-sm font-medium text-gray-700">{label}</label>
-                            <input
-                              disabled={true}
-                              id="email" placeholder="300 0000000" autoComplete="tel" {...props}
-                              className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
-                            />
-                            {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
-                          </div>
-                        )}
-                      </FormField>
-
-                      <FormField type="gender" name="gender"
-                                 label={"Gender"}
-                                 required>
-                        {({ errors, label, ...props }: FormInputFuncProps) => (
-                          <div>
-                            <label htmlFor="name"
-                                   className="block text-sm font-medium text-gray-700">{label}</label>
-                            <div className="flex space-x-4">
-                              <Controller
-                                name="gender"
-                                render={({ field: { value, onChange } }) => (
-                                  <select value={value} onChange={onChange}
-                                          className="appearance-none shadow-sm block  pl-3  pr-8 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 w-full">
-                                    <option value="MALE">Male</option>
-                                    <option value="FEMALE">Female</option>
-                                    <option value="OTHER">Other</option>
-                                  </select>
-                                )}
-                              />
-                            </div>
-
-                            {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
-                          </div>
-                        )}
-                      </FormField>
-
-                      <FormField type="text" name="address"
-                                 label={"Address"}
-                                 required>
-                        {({ errors, label, ...props }: FormInputFuncProps) => (
-                          <div>
-                            <label htmlFor="name"
-                                   className="block text-sm font-medium text-gray-700">{label}</label>
-                            <input
-                              id="address" {...props}
-                              className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
-                            />
-                            {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
-                          </div>
-                        )}
-                      </FormField>
-
-                      <FormField type="text" name="specialization"
-                                 label={"Specialization"}
-                                 required>
-                        {({ errors, label, ...props }: FormInputFuncProps) => (
-                          <div>
-                            <label htmlFor="name"
-                                   className="block text-sm font-medium text-gray-700">{label}</label>
-                            <input
-                              id="specialization" {...props}
-                              className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
-                            />
-                            {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
-                          </div>
-                        )}
-                      </FormField>
-
-                      <FormField type="date" name="dob" label="Date of Birth" required>
-                        {({ errors, label, ...props }: FormInputFuncProps) => (
-                          <div>
-                            <label htmlFor="name"
-                                   className="block text-sm font-medium text-gray-700">{label}</label>
-                            <input
-                              id="DOB" {...props}
-                              className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
-                            />
-                            {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
-                          </div>
-                        )}
-                      </FormField>
-
-                      <FormField type="number" name="appointmentDuration"
-                                 label={"Appointment Duration"}
-                                 required>
-                        {({ errors, label, ...props }: FormInputFuncProps) => (
-                          <div>
-                            <label
-                              className="block text-sm font-medium text-gray-700">{label}</label>
-                            <input
-                              step={15}
-                              min={15}
-
-                              {...props}
-                              className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
-                            />
-                            {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
-                          </div>
-                        )}
-                      </FormField>
-
-                      <div className="pt-2">
-                        <Button loading={loading} className="w-full" type="submit">Save</Button>
-                      </div>
-                    </Form>
-                  </div>
-                }
-
-                {currentTab === "Ratings" &&
+                {currentTab === "Ratings" && (
                   <div className="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                       <p className="text-sm text-gray">Ratings Appear Here</p>
                     </dl>
                   </div>
-                }
-
+                )}
               </article>
             </main>
           </div>
