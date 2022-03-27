@@ -11,6 +11,7 @@ export default function ProfileEdit() {
   const [apiError, setApiError] = useState<string>();
   const [loading, setLoading] = useState(false);
   const { data, mutate } = useSWR('/api/user/current');
+  const _ = useSWR('/api/clinic/timings');
 
   const onSubmit = async (value: Record<string, any>, Form: UseFormReturn) => {
     value.type = data.type;

@@ -17,7 +17,6 @@ export default function DoctorRating() {
     }
   ];
   ({data} = useSWR(`/api/clinic/doctors/${data.id}/rating`));
-  console.log(data);
   if (!data) return <></>;
   if (data.count < 1) return (<p>
     No ratings to display
