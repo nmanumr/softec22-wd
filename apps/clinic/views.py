@@ -123,10 +123,10 @@ class ListCreateHistoryApiView(GenericAPIView, ListCreateAPIView):
     serializer_class = serializers.PatientHistorySerializer
 
     def get_queryset(self):
-        return models.PatientHistory.objects.filter(patient=self.request.user)
+        return models.PatientHistory.objects.filter(patient_id=self.request.GET.get('pk'))
 
     def perform_create(self, serializer):
-        serializer.save(patient=self.request.user)
+        serializer.save(patient_id=self.kwargs.get('pk'))
 
 
 class RetrieveUpdateDestroyHistoryAPIView(GenericAPIView, RetrieveUpdateDestroyAPIView):

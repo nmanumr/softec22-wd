@@ -16,6 +16,7 @@ class PatientHistorySerializer(serializers.ModelSerializer):
         fields = (
             'id', 'type', 'title', 'date', 'description'
         )
+        read_only_fields = ('id',)
 
 
 class DoctorSerializer(serializers.ModelSerializer):
