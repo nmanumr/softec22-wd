@@ -92,50 +92,56 @@ export default function ProfileEdit() {
         )}
       </FormField>
 
-      <FormField type="text" name="specialization" label={"Specialization"} required>
-        {({ errors, label, ...props }: FormInputFuncProps) => (
-          <div>
-            <label htmlFor="name"
-                   className="block text-sm font-medium text-gray-700">{label}</label>
-            <input
-              id="specialization" {...props}
-              className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
-            />
-            {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
-          </div>
-        )}
-      </FormField>
+      {data.type === 'doctor' && (
+        <FormField type="text" name="specialization" label={"Specialization"} required>
+          {({ errors, label, ...props }: FormInputFuncProps) => (
+            <div>
+              <label htmlFor="name"
+                     className="block text-sm font-medium text-gray-700">{label}</label>
+              <input
+                id="specialization" {...props}
+                className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
+              />
+              {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
+            </div>
+          )}
+        </FormField>
+      )}
 
-      <FormField type="date" name="dob" label="Date of Birth" required>
-        {({ errors, label, ...props }: FormInputFuncProps) => (
-          <div>
-            <label htmlFor="name"
-                   className="block text-sm font-medium text-gray-700">{label}</label>
-            <input
-              id="DOB" {...props}
-              className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
-            />
-            {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
-          </div>
-        )}
-      </FormField>
+      {data.type === 'patient' && (
+        <FormField type="date" name="dob" label="Date of Birth" required>
+          {({ errors, label, ...props }: FormInputFuncProps) => (
+            <div>
+              <label htmlFor="name"
+                     className="block text-sm font-medium text-gray-700">{label}</label>
+              <input
+                id="DOB" {...props}
+                className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
+              />
+              {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
+            </div>
+          )}
+        </FormField>
+      )}
 
-      <FormField type="number" name="appointmentDuration" label={"Appointment Duration"} required>
-        {({ errors, label, ...props }: FormInputFuncProps) => (
-          <div>
-            <label
-              className="block text-sm font-medium text-gray-700">{label}</label>
-            <input
-              step={15}
-              min={15}
+      {data.type === 'doctor' && (
+        <FormField type="number" name="appointmentDuration" label={"Appointment Duration"} required>
+          {({ errors, label, ...props }: FormInputFuncProps) => (
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-700">{label}</label>
+              <input
+                step={15}
+                min={15}
 
-              {...props}
-              className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
-            />
-            {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
-          </div>
-        )}
-      </FormField>
+                {...props}
+                className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
+              />
+              {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
+            </div>
+          )}
+        </FormField>
+      )}
 
       <div className="pt-2">
         <Button loading={loading} className="w-full" type="submit">Save</Button>

@@ -22,10 +22,10 @@ export default function Profile() {
   return (
     <DashboardLayout>
       <div className="h-full flex -mt-10 relative">
-        <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
+        <div className="flex flex-col min-w-0 flex-1">
 
-          <div className="flex-1 relative z-0 flex overflow-hidden">
-            <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last">
+          <div className="flex-1 relative z-0 flex">
+            <main className="flex-1 relative focus:outline-none xl:order-last">
 
               <article>
                 {/* Profile header */}
