@@ -1,5 +1,5 @@
 import axios from "axios";
-import {KeyboardEventHandler, useEffect, useState} from 'react';
+import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import {
   useForm, FormProvider, useFormContext,
   Mode, UseFormReturn, FieldError,
@@ -53,16 +53,20 @@ export function Form(props: React.PropsWithChildren<FormProps>) {
   const criteriaMode = props.criteriaMode || 'all';
   const reValidateMode = props.reValidateMode || 'onChange';
   const { model, onSubmit, children, className } = props;
+  const updatedRef = useRef<boolean>(false);
 
   const form = useForm({
     mode, reValidateMode, defaultValues: model, criteriaMode,
   });
 
   useEffect(() => {
+    if (updatedRef.current) return;
+
     if (model) {
       Object.entries(model).forEach(([k, v]) => {
         form.setValue(k, v);
       });
+      updatedRef.current = true;
     } else {
       form.reset();
     }

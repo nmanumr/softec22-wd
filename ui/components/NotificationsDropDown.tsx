@@ -11,7 +11,7 @@ export default function NotificationsDropDown() {
           <Popover.Button
             className={c(
               open ? 'text-gray-500' : 'text-gray-400 hover:text-gray-500',
-              'ml-5 flex-shrink-0 bg-white rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600'
+              'ml-5 shrink-0 bg-white rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600'
             )}
           >
             <span className="sr-only">View notifications</span>

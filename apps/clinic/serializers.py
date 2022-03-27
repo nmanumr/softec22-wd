@@ -4,6 +4,12 @@ from apps.user.models import User
 from apps.clinic import models
 
 
+class ListCreateClinicTiming(serializers.ModelSerializer):
+    class Meta:
+        model = models.ClinicTime
+        fields = ('start_time', 'end_time', 'day')
+
+
 class PatientHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PatientHistory
@@ -16,9 +22,9 @@ class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'avatar', 'display_name', 'email',
+            'id', 'avatar', 'display_name', 'email',
             'is_email_verified', 'is_phone_verified',
-            'gender', 'appointment_duration'
+            'gender', 'appointment_duration', 'specialization'
         )
         read_only_fields = ('display_name', 'is_email_verified', 'is_phone_verified')
 
@@ -53,4 +59,12 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.PatientAppointment
-        fields = ('doctor', 'patient', 'time')
+        fields = ('doctor', 'patient', 'time', 'status')
+
+
+class CreateAppointmentSerializer(serializers.ModelSerializer):
+    doctor = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
+
+    class Meta:
+        model = models.PatientAppointment
+        fields = ('doctor', 'time')

@@ -117,7 +117,7 @@ export default function Example() {
                                     </div>
                                 </Transition.Child>
                                 <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-                                    <div className="flex-shrink-0 flex items-center px-4">
+                                    <div className="shrink-0 flex items-center px-4">
                                         <img
                                             className="h-8 w-auto"
                                             src="https://tailwindui.com/img/logos/workflow-logo-pink-500-mark-gray-900-text.svg"
@@ -158,7 +158,7 @@ export default function Example() {
                                                     className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md"
                                                 >
                                                     <item.icon
-                                                        className="text-gray-400 group-hover:text-gray-500 mr-4 flex-shrink-0 h-6 w-6"
+                                                        className="text-gray-400 group-hover:text-gray-500 mr-4 shrink-0 h-6 w-6"
                                                         aria-hidden="true"
                                                     />
                                                     {item.name}
@@ -167,8 +167,8 @@ export default function Example() {
                                         </div>
                                     </nav>
                                 </div>
-                                <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
-                                    <a href="#" className="flex-shrink-0 group block">
+                                <div className="shrink-0 flex border-t border-gray-200 p-4">
+                                    <a href="#" className="shrink-0 group block">
                                         <div className="flex items-center">
                                             <div>
                                                 <img className="inline-block h-10 w-10 rounded-full"
@@ -184,7 +184,7 @@ export default function Example() {
                                 </div>
                             </div>
                         </Transition.Child>
-                        <div className="flex-shrink-0 w-14" aria-hidden="true">
+                        <div className="shrink-0 w-14" aria-hidden="true">
                             {/* Force sidebar to shrink to fit close icon */}
                         </div>
                     </Dialog>
