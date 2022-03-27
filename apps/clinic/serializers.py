@@ -14,7 +14,7 @@ class PatientHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PatientHistory
         fields = (
-            'type', 'title', 'date', 'description'
+            'id', 'type', 'title', 'date', 'description'
         )
 
 
@@ -24,7 +24,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'avatar', 'display_name', 'email',
             'is_email_verified', 'is_phone_verified',
-            'gender', 'appointment_duration', 'specialization'
+            'gender', 'appointment_duration', 'specialization', 'clinic_name'
         )
         read_only_fields = ('display_name', 'is_email_verified', 'is_phone_verified')
 
@@ -35,7 +35,7 @@ class PatientWithHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'avatar', 'display_name', 'email', 'gender',
+            'id', 'avatar', 'display_name', 'email', 'gender',
             'patient_history_set'
         )
 
