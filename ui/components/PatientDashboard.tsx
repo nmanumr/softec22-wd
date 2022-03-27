@@ -65,8 +65,8 @@ export default function Home() {
         <RemoteDataTable
           columns={[
             {
-              key: 'patient',
-              name: 'Patient',
+              key: 'Doctors',
+              name: 'Doctors',
               render: (row: any) => (
                 <div className="flex items-center space-x-2">
                   <UserAvatar user={row.doctor} classNames="h-8 w-8" />

@@ -9,13 +9,16 @@ import { XIcon } from "@heroicons/react/outline";
 import { format } from "date-fns";
 import Button from "./Button";
 import Axios from "axios";
-import { Form } from "./form";
+import {Form, FormField, FormInputFuncProps} from "./form";
+import {setToken} from "../providers/auth";
+import {router} from "next/client";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Home() {
+  const [apiError, setApiError] = useState<string>();
   const { data } = useSWR('/api/user/current');
   const { data: appointments, mutate } = useSWR('/api/clinic/appointments');
 
@@ -49,6 +52,24 @@ export default function Home() {
       .finally(() => setLoading(false));
   };
 
+  const onSubmit = async (value: Record<string, any>) => {
+    setApiError('');
+    setLoading(true);
+
+    Axios.patch(`/api/clinic/appointments/${appointment.id}`, value)
+      .then((response) => {
+        setOpen(false)
+        console.log(response.data.notes)
+        appointment['notes'] = response.data.notes;
+        setAppointment(appointment)
+      })
+      .catch((e) => {
+        setApiError(e);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
   useEffect(() => {
     if (appointments && appointments.count > 0) {
       setAppointment(appointments['results'][0])
@@ -152,11 +173,26 @@ export default function Home() {
                             </div>
                           </dl>
                         </div>
-                        <Form onSubmit={() => undefined} className="px-4 pt-5 pb-5 sm:px-6">
-                          {appointment['status'] == 'ACCEPTED' && new Date(appointment.time) > new Date() && (
-                            <div>11</div>
-                          )}
-                        </Form>
+                        {appointment['status'] == 'ACCEPTED' && new Date(appointment.time) > new Date() &&
+                          <Form onSubmit={onSubmit} className="px-4 pt-5 pb-5 sm:px-6" model={{notes:appointment.notes}}>
+                              <FormField name="notes" type="text" label={'Notes'} required>
+                                {({ errors, label, ...props }: FormInputFuncProps) => (
+                                  <div>
+                                    <label htmlFor="text" className="block text-sm font-medium text-gray-700">{label}</label>
+                                    <textarea
+                                      rows = {10}
+                                      id="notes" {...props}
+                                      className="appearance-none shadow-sm block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm focus:z-10 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
+                                    />
+                                    {errors && <p className="text-xs mt-1.5 text-red-600">{errors.message}</p>}
+                                  </div>
+                                )}
+                              </FormField>
+                              <div className="pt-2">
+                              <Button className="w-full" type="submit" loading={loading}>Submit</Button>
+                          </div>
+
+                        </Form>}
                       </div>
                     }
                   </div>

@@ -1,5 +1,5 @@
 import { Form } from "./form";
-import { useState, Fragment } from "react";
+import {useState, Fragment, useEffect} from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 import Button from "./Button";
 import useSWR, { mutate } from "swr";
@@ -54,7 +54,7 @@ export default function ClinicTiming() {
   const [loading, setLoading] = useState(false);
   const { data, mutate } = useSWR('/api/clinic/timings');
   const newData = data?.reduce((a: Record<string, any>, e: Record<string, any>) => ({ ...a, [e.day]: e }), {});
-  console.log(newData);
+
 
   const onSubmit = async (value: Record<string, any>, Form: UseFormReturn) => {
     const newVal = Object.entries(value)
