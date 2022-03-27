@@ -13,7 +13,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/user/', include('apps.user.urls')),
-    path('api/chat/', include('apps.chat.urls', namespace='chat')),
     path('api/clinic/', include('apps.clinic.urls')),
 ]
 
