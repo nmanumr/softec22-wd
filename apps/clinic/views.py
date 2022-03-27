@@ -117,3 +117,21 @@ class ListDoctorAvailableTimes(GenericAPIView):
             for t in times
             if t.time() not in appointments_times
         ]
+
+
+class ListCreateHistoryApiView(GenericAPIView, ListCreateAPIView):
+    serializer_class = serializers.PatientHistorySerializer
+
+    def get_queryset(self):
+        return models.PatientHistory.objects.filter(patient_id=self.kwargs.get('pk')).order_by('type')
+
+    def perform_create(self, serializer):
+        serializer.save(patient_id=self.kwargs.get('pk'))
+
+
+class RetrieveUpdateDestroyHistoryAPIView(GenericAPIView, RetrieveUpdateDestroyAPIView):
+    serializer_class = serializers.PatientHistorySerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return models.PatientHistory.objects.filter(patient=self.request.user)

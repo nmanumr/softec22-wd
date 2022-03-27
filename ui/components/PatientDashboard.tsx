@@ -8,7 +8,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import { useConfirmation } from "./ConfirmationService";
 import Button from "./Button";
 
-const formatter = new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', dateStyle: 'long' });
+const formatter = new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', dateStyle: 'long', hour12: true });
 
 const columns = [
   {
@@ -65,12 +65,15 @@ export default function Home() {
         <RemoteDataTable
           columns={[
             {
-              key: 'patient',
-              name: 'Patient',
+              key: 'Doctors',
+              name: 'Doctor',
               render: (row: any) => (
-                <div className="flex items-center space-x-2">
-                  <UserAvatar user={row.doctor} classNames="h-8 w-8" />
-                  <div className="font-medium text-gray-800">{row.doctor.displayName}</div>
+                <div className="flex items-center space-x-3">
+                  <UserAvatar user={row.doctor} classNames="h-10 w-10" />
+                  <div>
+                    <div className="font-medium text-gray-800">{row.doctor.displayName}</div>
+                    <div className="text-sm text-gray-500">{row.doctor.specialization}</div>
+                  </div>
                 </div>
               ),
             },
@@ -85,9 +88,11 @@ export default function Home() {
               key: 'accepted',
               name: 'Accepted',
               render: (row: any) => (
-                row.accepted
-                  ? <div className="font-medium text-green-600" >Appointment accepted</div>
-                  : <div className="font-medium text-red-600">Not accepted yet</div>
+                row.status === 'ACCEPTED'
+                  ? <div className="font-medium text-green-600">Appointment approved</div>
+                  : row.status === 'REJECTED'
+                    ? <div className="font-medium text-red-600">Appointment rejected</div>
+                    : <div className="font-medium text-blue-600">Appointment Pending</div>
               ),
             },
           ]}
