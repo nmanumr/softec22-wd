@@ -7,6 +7,7 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 import useSWR from "swr";
 import RemoteDataTable from "../../components/RemoteDataTable";
 
+const formatter = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' });
 
 export default function History() {
   const {data: userData} = useSWR('/api/user/current');
@@ -16,8 +17,20 @@ export default function History() {
   const columns = [
     {
       key: 'title',
-      name: 'Title',
-      render: (row: any) => <div className="font-medium text-gray-800">{row.title}</div>,
+      name: '',
+      render: (row: any) => (
+        <div>
+          <div className="font-medium text-gray-800">{row.title}</div>
+          <div className="text-gray-600 mt-1">{row.description}</div>
+        </div>
+      ),
+    },
+    {
+      key: 'date',
+      name: '',
+      render: (row: any) => (
+          <div className="">{formatter.format(new Date(row.date))}</div>
+      ),
     },
   ];
 
