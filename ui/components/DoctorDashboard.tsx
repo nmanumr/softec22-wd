@@ -9,6 +9,7 @@ import { XIcon } from "@heroicons/react/outline";
 import { format } from "date-fns";
 import Button from "./Button";
 import Axios from "axios";
+import { Form } from "./form";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -105,26 +106,24 @@ export default function Home() {
                                       className="text-xl font-bold text-gray-900 sm:text-2xl">{appointment['patient']['displayName']}</h3>
                                   </div>
                                 </div>
-                                {
-                                  appointment['status'] == 'PENDING' && (
-                                    <div className="mt-5 flex space-y-3 sm:space-y-0 sm:space-x-3">
-                                      <Button
-                                        type="button" className="w-full justify-center"
-                                        loading={loading}
-                                        onClick={onApprove}
-                                      >
-                                        Approve
-                                      </Button>
-                                      <Button
-                                        type="button" className="w-full justify-center"
-                                        kind="secondary"
-                                        onClick={onDecline}
-                                      >
-                                        Decline
-                                      </Button>
-                                    </div>
-                                  )
-                                }
+                                {appointment['status'] == 'PENDING' && (
+                                  <div className="mt-5 flex space-y-3 sm:space-y-0 sm:space-x-3">
+                                    <Button
+                                      type="button" className="w-full justify-center"
+                                      loading={loading}
+                                      onClick={onApprove}
+                                    >
+                                      Approve
+                                    </Button>
+                                    <Button
+                                      type="button" className="w-full justify-center"
+                                      kind="secondary"
+                                      onClick={onDecline}
+                                    >
+                                      Decline
+                                    </Button>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -153,6 +152,11 @@ export default function Home() {
                             </div>
                           </dl>
                         </div>
+                        <Form onSubmit={() => undefined} className="px-4 pt-5 pb-5 sm:px-6">
+                          {appointment['status'] == 'ACCEPTED' && new Date(appointment.time) > new Date() && (
+                            <div>11</div>
+                          )}
+                        </Form>
                       </div>
                     }
                   </div>
