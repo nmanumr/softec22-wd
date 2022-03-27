@@ -282,10 +282,10 @@ export default function AppointmentTable({appointments, startingHour = 8, onClic
                           className={`${onClick && 'cursor-pointer'} relative mt-px flex sm:col-start-${appointment['dateOffset']}`}
                           style={{gridRow: `${appointment['hourOffset']} / span ${duration}`}}>
                         <div
-                          className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100"
+                          className={` ${appointment['status'] == 'PENDING' ? 'bg-yellow-50 hover:bg-yellow-100 text-yellow-700' : appointment['status'] == 'REJECTED' ? 'bg-red-200 hover:bg-red-300 text-red-700' : 'bg-blue-50 hover:bg-blue-100 text-blue-700'} group absolute inset-1 flex flex-col overflow-y-auto rounded-lg p-2 text-xs leading-5`}
                         >
-                          <p className="order-1 font-semibold text-blue-700">{appointment['patient']['displayName']}</p>
-                          <p className="text-blue-500 group-hover:text-blue-700">
+                          <p className="order-1 font-semibold">{appointment['patient']['displayName']}</p>
+                          <p>
                             <time
                               dateTime={appointment['time'].toString()}>{format(new Date(appointment['time']), 'K:mm a')}</time>
                           </p>
