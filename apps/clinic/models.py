@@ -41,9 +41,15 @@ class ClinicTime(models.Model):
 
 
 class PatientAppointment(models.Model):
+    STATUS = (
+        ('PENDING', 'Pending'),
+        ('ACCEPTED', 'Accepted'),
+        ('REJECTED', 'Rejected'),
+    )
+
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_appointments')
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_appointments')
-    accepted = models.BooleanField(default=False)
+    status = models.CharField(max_length=20, choices=STATUS, default='PENDING')
     time = models.DateTimeField()
 
 
