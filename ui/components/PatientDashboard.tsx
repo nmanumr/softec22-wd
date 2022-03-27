@@ -85,9 +85,11 @@ export default function Home() {
               key: 'accepted',
               name: 'Accepted',
               render: (row: any) => (
-                row.accepted
-                  ? <div className="font-medium text-green-600" >Appointment accepted</div>
-                  : <div className="font-medium text-red-600">Not accepted yet</div>
+                row.status === 'ACCEPTED'
+                  ? <div className="font-medium text-green-600">Appointment approved</div>
+                  : row.status === 'REJECTED'
+                    ? <div className="font-medium text-red-600">Appointment rejected</div>
+                    : <div className="font-medium text-blue-600">Appointment Pending</div>
               ),
             },
           ]}
