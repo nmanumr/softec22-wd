@@ -60,3 +60,11 @@ class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PatientAppointment
         fields = ('doctor', 'patient', 'time', 'status')
+
+
+class CreateAppointmentSerializer(serializers.ModelSerializer):
+    doctor = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
+
+    class Meta:
+        model = models.PatientAppointment
+        fields = ('doctor', 'time')

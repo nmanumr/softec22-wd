@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
@@ -23,13 +25,20 @@ class RetrievePatientApiView(GenericAPIView, RetrieveAPIView):
 # fix timing issues
 class ListCreateAppointmentAPIView(GenericAPIView, ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = serializers.AppointmentSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return serializers.CreateAppointmentSerializer
+        return serializers.AppointmentSerializer
 
     def get_queryset(self):
         if self.request.user.type == 'doctor':
             return models.PatientAppointment.objects.filter(doctor=self.request.user.id)
         elif self.request.user.type == 'patient':
             return models.PatientAppointment.objects.filter(patient=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(patient=self.request.user)
 
 
 class RetrieveUpdateDestroyAppointmentsAPIView(GenericAPIView, RetrieveUpdateDestroyAPIView):
@@ -78,3 +87,33 @@ class ListCreateDoctorRating(GenericAPIView, ListCreateAPIView):
 
     def get_queryset(self):
         return models.DoctorRating.objects.filter(doctor=self.kwargs['pk'])
+
+
+class ListDoctorAvailableTimes(GenericAPIView):
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        date = datetime.strptime(self.request.GET['date'], '%Y-%m-%d')
+        start_date = date.replace(hour=8, minute=0)
+        end_date = date.replace(hour=17, minute=0)
+
+        def create_date_ranges(start, end, **interval):
+            start_ = start
+            while start_ < end:
+                end_ = start_ + timedelta(**interval)
+                yield start_
+                start_ = end_
+
+        times = list(create_date_ranges(start_date, end_date, minutes=30))
+
+        appointments = models.PatientAppointment.objects\
+            .filter(doctor=self.kwargs.get('pk'))\
+            .filter(time__range=(date, date + timedelta(days=1)))
+
+        appointments_times = [ap.time.time() for ap in appointments]
+
+        return [
+            datetime.strftime(t, '%H:%M:00')
+            for t in times
+            if t.time() not in appointments_times
+        ]
