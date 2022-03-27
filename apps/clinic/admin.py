@@ -11,3 +11,7 @@ class AppointmentAdmin(admin.ModelAdmin):
 @admin.register(models.DoctorRating)
 class DoctorRatingAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(models.PatientHistory)
+class HistoryAdmin(admin.ModelAdmin):
+    pass
